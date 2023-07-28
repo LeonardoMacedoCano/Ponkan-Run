@@ -1,6 +1,7 @@
 package game.object;
 
 import javax.swing.ImageIcon;
+import java.awt.Graphics;
 import java.awt.Image;
 
 public abstract class Object2D {
@@ -23,7 +24,11 @@ public abstract class Object2D {
 
     protected abstract String getImageFrame();
 
-    private void setImage() {
+    public void paintObject(Graphics graphics) {
+        graphics.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
+    }
+
+    protected void setImage() {
         ImageIcon image = new ImageIcon(getImageFrame());
         this.image = image.getImage();
     }
@@ -48,7 +53,7 @@ public abstract class Object2D {
         return height;
     }
 
-    private void setX(int x) {
+    protected void setX(int x) {
         this.x = x;
     }
 
@@ -56,7 +61,7 @@ public abstract class Object2D {
         return x;
     }
 
-    private void setY(int y) {
+    protected void setY(int y) {
         this.y = y;
     }
 
