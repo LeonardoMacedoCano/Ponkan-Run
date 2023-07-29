@@ -14,7 +14,7 @@ public class Stage extends JPanel implements ActionListener {
     private stageBackground background;
 
     public Stage() {
-        timer = new Timer(1, this);
+        timer = new Timer(10, this);
         background = new stageBackground();
 
         setFocusable(true);

@@ -3,10 +3,21 @@ package game.object;
 import game.utils.LibraryUtils;
 
 public class stageBackground extends Object2D{
+    private final int LAST_FRAME = 34;
 
     @Override
     public void updateObject() {
+        updateFrame();
         setImage();
+    }
+
+    @Override
+    public void updateFrame() {
+        if (getFrame() < LAST_FRAME) {
+            setFrame(getFrame() +1);
+        } else {
+            setFrame(1);
+        }
     }
 
     @Override
@@ -17,6 +28,6 @@ public class stageBackground extends Object2D{
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_STAGE_BG, 1);
+        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_STAGE_BG, getFrame());
     }
 }
