@@ -10,8 +10,10 @@ public abstract class Object2D {
     private int height;
     private int width;
     private Image image;
+    private int frame;
 
     public Object2D() {
+        setFrame(1);
         setImage();
         setHeight();
         setWidth();
@@ -19,6 +21,8 @@ public abstract class Object2D {
     }
 
     public abstract void updateObject();
+
+    public abstract void updateFrame();
 
     protected abstract void setStartPosition();
 
@@ -33,7 +37,7 @@ public abstract class Object2D {
         this.image = image.getImage();
     }
 
-    private Image getImage() {
+    protected Image getImage() {
         return image;
     }
 
@@ -57,7 +61,7 @@ public abstract class Object2D {
         this.x = x;
     }
 
-    private int getX() {
+    protected int getX() {
         return x;
     }
 
@@ -65,7 +69,15 @@ public abstract class Object2D {
         this.y = y;
     }
 
-    private int getY() {
+    protected int getY() {
         return y;
+    }
+
+    protected void setFrame(int frame) {
+        this.frame = frame;
+    }
+
+    protected int getFrame() {
+        return frame;
     }
 }
