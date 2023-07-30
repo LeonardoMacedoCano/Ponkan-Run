@@ -4,6 +4,7 @@ import game.utils.LibraryUtils;
 
 public class StageBackground extends Object2D{
     private final int LAST_FRAME = 34;
+    public final int FLOOR_HEIGTH = 665;
 
     @Override
     public void updateObject() {
@@ -29,5 +30,15 @@ public class StageBackground extends Object2D{
     @Override
     protected String getImageFrame() {
         return String.format("%s/%d.png", LibraryUtils.PATH_IMG_STAGE_BG, getFrame());
+    }
+
+    @Override
+    protected void beforeCreateObject() {
+
+    }
+
+    @Override
+    protected void afterCreateObject() {
+
     }
 }

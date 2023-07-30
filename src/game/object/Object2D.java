@@ -13,11 +13,15 @@ public abstract class Object2D {
     private int frame;
 
     public Object2D() {
+        beforeCreateObject();
+        
         setFrame(1);
         setImage();
         setHeight();
         setWidth();
         setStartPosition();
+
+        afterCreateObject();
     }
 
     public abstract void updateObject();
@@ -27,6 +31,10 @@ public abstract class Object2D {
     protected abstract void setStartPosition();
 
     protected abstract String getImageFrame();
+
+    protected abstract void beforeCreateObject();
+
+    protected abstract void afterCreateObject();
 
     public void paintObject(Graphics graphics) {
         graphics.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
