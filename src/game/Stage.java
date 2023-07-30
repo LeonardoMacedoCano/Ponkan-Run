@@ -4,6 +4,7 @@ import game.object.DefaultInformation;
 import game.object.InformationPlay;
 import game.object.Player;
 import game.object.StageBackground;
+import game.utils.KeyboardAdapter;
 import game.utils.LibraryUtils;
 
 import javax.swing.JPanel;
@@ -31,6 +32,7 @@ public class Stage extends JPanel implements ActionListener {
 
         setFocusable(true);
         setDoubleBuffered(true);
+        addKeyListener(new KeyboardAdapter());
 
         timer.start();
         prepareStagePlay();
@@ -57,6 +59,10 @@ public class Stage extends JPanel implements ActionListener {
     private void prepareStagePlay() {
         setCurrentStageType(LibraryUtils.StageType.PLAY);
         player.prepareStagePlay();
+    }
+
+    public static void prepareStagePlaying() {
+        setCurrentStageType(LibraryUtils.StageType.PLAYING);
     }
 
     private void running() {
@@ -92,7 +98,7 @@ public class Stage extends JPanel implements ActionListener {
         }
     }
 
-    private void setCurrentStageType(String currentStageType) {
+    private static void setCurrentStageType(String currentStageType) {
         Stage.currentStageType = currentStageType;
     }
 
