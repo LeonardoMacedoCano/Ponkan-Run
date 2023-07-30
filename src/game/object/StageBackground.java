@@ -2,7 +2,7 @@ package game.object;
 
 import game.utils.LibraryUtils;
 
-public class stageBackground extends Object2D{
+public class StageBackground extends Object2D{
     private final int LAST_FRAME = 34;
 
     @Override

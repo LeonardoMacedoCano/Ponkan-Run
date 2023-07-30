@@ -1,6 +1,6 @@
 package game;
 
-import game.object.stageBackground;
+import game.object.StageBackground;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 
 public class Stage extends JPanel implements ActionListener {
     private Timer timer;
-    private stageBackground background;
+    private StageBackground background;
 
     public Stage() {
         timer = new Timer(10, this);
-        background = new stageBackground();
+        background = new StageBackground();
 
         setFocusable(true);
         setDoubleBuffered(true);
