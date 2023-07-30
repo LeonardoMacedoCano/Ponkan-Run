@@ -12,15 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Stage extends JPanel implements ActionListener {
-    private Timer timer;
-    private StageBackground background;
-    private Player player;
+    private final StageBackground background;
+    private final Player player;
     private static String currentStageType;
-
     public static final int GRAVITATIONAL_FORCE = 2;
 
     public Stage() {
-        timer = new Timer(10, this);
+        Timer timer = new Timer(10, this);
+
         background = new StageBackground();
         player = new Player();
 
@@ -64,7 +63,7 @@ public class Stage extends JPanel implements ActionListener {
     }
 
     private void setCurrentStageType(String currentStageType) {
-        this.currentStageType = currentStageType;
+        Stage.currentStageType = currentStageType;
     }
 
     public static String getCurrentStageType() {
