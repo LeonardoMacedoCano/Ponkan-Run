@@ -45,7 +45,7 @@ public abstract class Object2D {
         this.image = image.getImage();
     }
 
-    protected Image getImage() {
+    public Image getImage() {
         return image;
     }
 
@@ -53,7 +53,7 @@ public abstract class Object2D {
         this.width = this.image.getWidth(null);
     }
 
-    protected int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -61,7 +61,7 @@ public abstract class Object2D {
         this.height = this.image.getHeight(null);
     }
 
-    protected int getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -69,7 +69,7 @@ public abstract class Object2D {
         this.x = x;
     }
 
-    protected int getX() {
+    public int getX() {
         return x;
     }
 
@@ -77,7 +77,7 @@ public abstract class Object2D {
         this.y = y;
     }
 
-    protected int getY() {
+    public int getY() {
         return y;
     }
 

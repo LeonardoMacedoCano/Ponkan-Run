@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 
 public class Container extends JFrame {
     private final String TITLE = "Ponkan Run";
-    private final int DEFAULT_HEIGHT = 765;
-    private final int DEFAULT_WIDTH = 1040;
+    public static final int DEFAULT_HEIGHT = 765;
+    public static final int DEFAULT_WIDTH = 1040;
     private final String IMAGE_ICON = String.format("%s/icon.png", LibraryUtils.PATH_IMG_PLAYER);
 
     private Container() {
