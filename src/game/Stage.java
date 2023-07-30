@@ -15,6 +15,8 @@ public class Stage extends JPanel implements ActionListener {
     private StageBackground background;
     private Player player;
 
+    public static final int GRAVITATIONAL_FORCE = 2;
+
     public Stage() {
         timer = new Timer(10, this);
         background = new StageBackground();

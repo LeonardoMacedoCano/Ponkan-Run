@@ -1,15 +1,19 @@
 package game.object;
 
+import game.Stage;
 import game.utils.LibraryUtils;
 
 public class Player extends Object2D {
     private final int LAST_FRAME_STOPPED = 4;
     private int frameBase;
+    private int velocity;
 
     @Override
     public void updateObject() {
+        updateVelocity();
         updateFrame();
         setImage();
+        updateYCoordinate();
     }
 
     @Override
@@ -44,6 +48,18 @@ public class Player extends Object2D {
 
     }
 
+    private void updateVelocity() {
+        setVelocity(getVelocity() + Stage.GRAVITATIONAL_FORCE);
+    }
+
+    private void updateYCoordinate() {
+        if ((getY() + getVelocity()) > (StageBackground.FLOOR_HEIGTH - getHeight())) {
+            setY(StageBackground.FLOOR_HEIGTH - getHeight());
+        } else {
+            setY(getY() + getVelocity());
+        }
+    }
+
     private String getPlayerFrame(String pathImage, int frameBase, int lastFrame) {
         int frame = 0;
         int currentFrame = getFrame();
@@ -66,5 +82,13 @@ public class Player extends Object2D {
 
     private int getFrameBase() {
         return frameBase;
+    }
+
+    private void setVelocity(int velocity) {
+        this.velocity = velocity;
+    }
+
+    private int getVelocity() {
+        return velocity;
     }
 }
