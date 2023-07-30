@@ -2,6 +2,7 @@ package game;
 
 import game.object.Player;
 import game.object.StageBackground;
+import game.utils.LibraryUtils;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -14,6 +15,7 @@ public class Stage extends JPanel implements ActionListener {
     private Timer timer;
     private StageBackground background;
     private Player player;
+    private static String currentStageType;
 
     public static final int GRAVITATIONAL_FORCE = 2;
 
@@ -26,6 +28,7 @@ public class Stage extends JPanel implements ActionListener {
         setDoubleBuffered(true);
 
         timer.start();
+        prepareStagePlay();
         running();
     }
 
@@ -40,6 +43,16 @@ public class Stage extends JPanel implements ActionListener {
         super.paint(g);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        running();
+    }
+
+    private void prepareStagePlay() {
+        setCurrentStageType(LibraryUtils.StageType.PLAY);
+        player.prepareStagePlay();
+    }
+
     private void running() {
         update();
         repaint();
@@ -50,8 +63,11 @@ public class Stage extends JPanel implements ActionListener {
         player.updateObject();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        running();
+    private void setCurrentStageType(String currentStageType) {
+        this.currentStageType = currentStageType;
+    }
+
+    public static String getCurrentStageType() {
+        return currentStageType;
     }
 }

@@ -1,5 +1,6 @@
 package game.object;
 
+import game.Stage;
 import game.utils.LibraryUtils;
 
 public class StageBackground extends Object2D{
@@ -14,7 +15,7 @@ public class StageBackground extends Object2D{
 
     @Override
     public void updateFrame() {
-        if (getFrame() < LAST_FRAME) {
+        if ((Stage.getCurrentStageType() == LibraryUtils.StageType.PLAYING) && (getFrame() < LAST_FRAME)) {
             setFrame(getFrame() +1);
         } else {
             setFrame(1);

@@ -48,6 +48,12 @@ public class Player extends Object2D {
 
     }
 
+    public void prepareStagePlay() {
+        setFrame(1);
+        setFrameBase(10);
+        setVelocity(0);
+    }
+
     private void updateVelocity() {
         setVelocity(getVelocity() + Stage.GRAVITATIONAL_FORCE);
     }
