@@ -1,6 +1,7 @@
 package game;
 
 import game.object.DefaultInformation;
+import game.object.InformationLives;
 import game.object.InformationPlay;
 import game.object.Player;
 import game.object.StageBackground;
@@ -79,8 +80,13 @@ public class Stage extends JPanel implements ActionListener {
     private void updateListInformation() {
         listInformation.clear();
 
-        if (getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
-            listInformation.add(new InformationPlay());
+        switch (getCurrentStageType()) {
+            case LibraryUtils.StageType.PLAY:
+                listInformation.add(new InformationPlay());
+                break;
+            default:
+                listInformation.add(new InformationLives());
+                break;
         }
     }
 

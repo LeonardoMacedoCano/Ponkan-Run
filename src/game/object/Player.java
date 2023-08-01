@@ -6,8 +6,10 @@ import game.utils.LibraryUtils;
 public class Player extends Object2D {
     private final int LAST_FRAME_STOPPED = 4;
     private final int LAST_FRAME_WALKING = 8;
+    private final int MAX_LIVES = 3;
     private int frameBase;
     private int velocity;
+    private static int currentTotalLives;
 
     @Override
     public void updateObject() {
@@ -46,6 +48,7 @@ public class Player extends Object2D {
     @Override
     protected void beforeCreateObject() {
         setFrameBase(10);
+        setCurrentTotalLives(MAX_LIVES);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class Player extends Object2D {
         setFrame(1);
         setFrameBase(10);
         setVelocity(0);
+        setCurrentTotalLives(MAX_LIVES);
     }
 
     private void updateVelocity() {
@@ -101,5 +105,13 @@ public class Player extends Object2D {
 
     private int getVelocity() {
         return velocity;
+    }
+
+    private void setCurrentTotalLives(int currentTotalLives) {
+        Player.currentTotalLives = currentTotalLives;
+    }
+
+    protected static int getCurrentTotalLives() {
+        return currentTotalLives;
     }
 }
