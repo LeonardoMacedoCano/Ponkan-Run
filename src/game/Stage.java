@@ -1,10 +1,6 @@
 package game;
 
-import game.object.DefaultInformation;
-import game.object.InformationLives;
-import game.object.InformationPlay;
-import game.object.Player;
-import game.object.StageBackground;
+import game.object.*;
 import game.utils.KeyboardAdapter;
 import game.utils.LibraryUtils;
 
@@ -22,6 +18,7 @@ public class Stage extends JPanel implements ActionListener {
     private final Player player;
     private final List<DefaultInformation> listInformation;
     private static String currentStageType;
+    private static int currentScore;
     public static final int GRAVITATIONAL_FORCE = 2;
 
     public Stage() {
@@ -59,6 +56,7 @@ public class Stage extends JPanel implements ActionListener {
 
     private void prepareStagePlay() {
         setCurrentStageType(LibraryUtils.StageType.PLAY);
+        setCurrentScore(0);
         player.prepareStagePlay();
     }
 
@@ -86,6 +84,7 @@ public class Stage extends JPanel implements ActionListener {
                 break;
             default:
                 listInformation.add(new InformationLives());
+                listInformation.add(new InformationScore());
                 break;
         }
     }
@@ -96,6 +95,10 @@ public class Stage extends JPanel implements ActionListener {
         for (DefaultInformation defaultInformation : listInformation) {
             information = defaultInformation;
             graphics2D.drawImage(information.getImage(), information.getX(), information.getY(), information.getWidth(), information.getHeight(), this);
+
+            if (information.isUsedTextBox()) {
+                information.paintTextBox(graphics2D);
+            }
         }
     }
 
@@ -105,5 +108,13 @@ public class Stage extends JPanel implements ActionListener {
 
     public static String getCurrentStageType() {
         return currentStageType;
+    }
+
+    private static void setCurrentScore(int currentScore) {
+        Stage.currentScore = currentScore;
+    }
+
+    public static int getCurrentScore() {
+        return currentScore;
     }
 }

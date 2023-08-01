@@ -1,44 +1,53 @@
 package game.object;
 
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
-public class DefaultInformation extends Object2D  {
+public abstract class DefaultInformation extends Object2D  {
     private boolean usedTextBox;
     private int xText;
     private int yText;
     private AttributedString text;
 
     @Override
-    public void updateObject() {
-
-    }
+    public abstract void updateObject();
 
     @Override
-    public void updateFrame() {
-
-    }
+    public abstract void updateFrame();
 
     @Override
-    protected void setStartPosition() {
-
-    }
+    protected abstract void setStartPosition();
 
     @Override
-    protected String getImageFrame() {
-        return null;
-    }
+    protected abstract String getImageFrame();
 
     @Override
-    protected void beforeCreateObject() {
-
-    }
+    protected abstract void beforeCreateObject();
 
     @Override
-    protected void afterCreateObject() {
+    protected abstract void afterCreateObject();
 
+    protected abstract void createTextBox(Graphics2D graphics2D);
+
+    protected static int getTextBoxWidth(Graphics2D graphics2D, AttributedString attributedString) {
+        AttributedCharacterIterator characterIterator = attributedString.getIterator();
+        FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
+        LineBreakMeasurer lbm = new LineBreakMeasurer(characterIterator, fontRenderContext);
+        TextLayout textLayout = lbm.nextLayout(Integer.MAX_VALUE);
+        return (int) textLayout.getBounds().getWidth();
     }
 
-    protected boolean isUsedTextBox () {
+    public void paintTextBox(Graphics2D graphics2D) {
+        createTextBox(graphics2D);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.drawString(getText().getIterator(), getXText(), getYText());
+    }
+
+    public boolean isUsedTextBox() {
         return usedTextBox;
     }
 
