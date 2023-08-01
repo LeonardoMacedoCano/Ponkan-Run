@@ -5,6 +5,7 @@ import game.utils.LibraryUtils;
 
 public class Player extends Object2D {
     private final int LAST_FRAME_STOPPED = 4;
+    private final int LAST_FRAME_WALKING = 8;
     private int frameBase;
     private int velocity;
 
@@ -33,9 +34,11 @@ public class Player extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        String imageName = getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_STOPPED, getFrameBase(), LAST_FRAME_STOPPED);
-
-        return String.format("%s.png", imageName);
+        if (Stage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
+            return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_STOPPED, getFrameBase(), LAST_FRAME_STOPPED));
+        } else {
+            return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_WALKING, getFrameBase(), LAST_FRAME_WALKING));
+        }
     }
 
     @Override
