@@ -19,7 +19,9 @@ public class Player extends Object2D {
 
     @Override
     public void updateFrame() {
-        if (getFrame() < (getFrameBase() * LAST_FRAME_STOPPED)) {
+        int lastFrame = (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) ? LAST_FRAME_STOPPED : LAST_FRAME_WALKING;
+
+        if (getFrame() < (getFrameBase() * lastFrame)) {
             setFrame(getFrame() +1);
         } else {
             setFrame(1);
@@ -34,7 +36,7 @@ public class Player extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        if (Stage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
+        if (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) {
             return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_STOPPED, getFrameBase(), LAST_FRAME_STOPPED));
         } else {
             return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_WALKING, getFrameBase(), LAST_FRAME_WALKING));

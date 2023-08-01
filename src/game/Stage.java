@@ -79,21 +79,16 @@ public class Stage extends JPanel implements ActionListener {
     private void updateListInformation() {
         listInformation.clear();
 
-        switch (getCurrentStageType()) {
-            case LibraryUtils.StageType.PLAY:
-                listInformation.add(new InformationPlay());
-                break;
-            default:
-                //TO DO
-                break;
+        if (getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
+            listInformation.add(new InformationPlay());
         }
     }
 
     private void paintListInformation(Graphics2D graphics2D) {
         DefaultInformation information;
 
-        for (int i = 0; i < listInformation.size(); i++) {
-            information = listInformation.get(i);
+        for (DefaultInformation defaultInformation : listInformation) {
+            information = defaultInformation;
             graphics2D.drawImage(information.getImage(), information.getX(), information.getY(), information.getWidth(), information.getHeight(), this);
         }
     }

@@ -9,7 +9,7 @@ public class KeyboardAdapter extends KeyAdapter {
     public void keyPressed(KeyEvent key) {
         switch (key.getKeyCode()) {
             case KeyEvent.VK_ENTER:
-                if (Stage.getCurrentStageType() == LibraryUtils.StageType.PLAY) {
+                if (Stage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
                     Stage.prepareStagePlaying();
                 }
                 break;

@@ -8,7 +8,7 @@ public class LibraryUtils {
     public static final String PATH_IMG_PLAYER_STOPPED = String.format("%s/player-stopped/", PATH_IMG_PLAYER);
     public static final String PATH_IMG_PLAYER_WALKING = String.format("%s/player-walking/", PATH_IMG_PLAYER);
 
-    public class StageType {
+    public static class StageType {
         public static final String PLAY = "Play";
         public static final String PLAYING = "Playing";
         public static final String LOST = "Lost";
