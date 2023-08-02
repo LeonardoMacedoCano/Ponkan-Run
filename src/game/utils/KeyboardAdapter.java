@@ -7,8 +7,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyboardAdapter extends KeyAdapter {
-    public void keyPressed(KeyEvent key) {
-        switch (key.getKeyCode()) {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER:
                 if (Stage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
                     Stage.prepareStagePlaying();
@@ -19,6 +20,16 @@ public class KeyboardAdapter extends KeyAdapter {
                     Player.jump();
                 }
                 break;
+            case KeyEvent.VK_DOWN:
+                Player.roll();
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            Player.getUp();
         }
     }
 }

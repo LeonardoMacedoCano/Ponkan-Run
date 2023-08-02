@@ -4,12 +4,15 @@ import game.Stage;
 import game.utils.LibraryUtils;
 
 public class Player extends Object2D {
+    private final int LAST_FRAME_JUMPING = 3;
     private final int LAST_FRAME_STOPPED = 4;
+    private final int LAST_FRAME_ROLLING = 4;
     private final int LAST_FRAME_WALKING = 8;
     private final int MAX_LIVES = 3;
     private final int MAX_JUMPS = 2;
     private static final int FORCE_JUMP = 28;
     private int frameBase;
+    private static boolean isRolling;
     private static int velocity;
     private static int currentTotalLives;
     private static int remainingJumps;
@@ -19,14 +22,14 @@ public class Player extends Object2D {
         updateVelocity();
         updateFrame();
         setImage();
+        setHeight();
+        setWidth();
         updateYCoordinate();
     }
 
     @Override
     public void updateFrame() {
-        int lastFrame = (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) ? LAST_FRAME_STOPPED : LAST_FRAME_WALKING;
-
-        if (getFrame() < (getFrameBase() * lastFrame)) {
+        if (getFrame() < (getFrameBase() * getLastFrame())) {
             setFrame(getFrame() +1);
         } else {
             setFrame(1);
@@ -44,7 +47,13 @@ public class Player extends Object2D {
         if (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) {
             return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_STOPPED, getFrameBase(), LAST_FRAME_STOPPED));
         } else {
-            return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_WALKING, getFrameBase(), LAST_FRAME_WALKING));
+            if (isJumping() && getRemainingJumps() == 1) {
+                return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_JUMPING, getFrameBase(), LAST_FRAME_JUMPING));
+            } else if (isRolling() || isJumping()) {
+                return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_ROLLING, getFrameBase(), LAST_FRAME_ROLLING));
+            } else {
+                return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_WALKING, getFrameBase(), LAST_FRAME_WALKING));
+            }
         }
     }
 
@@ -57,6 +66,7 @@ public class Player extends Object2D {
     @Override
     protected void afterCreateObject() {
         setRemainingJumps(MAX_JUMPS);
+        setRolling(false);
     }
 
     public void prepareStagePlay() {
@@ -71,7 +81,7 @@ public class Player extends Object2D {
     }
 
     private void updateYCoordinate() {
-        if (isJump()) {
+        if (isJumping()) {
             setY(getY() + getVelocity());
         } else {
             setPlayerOnTheFloor();
@@ -84,12 +94,32 @@ public class Player extends Object2D {
         setRemainingJumps(getRemainingJumps() -1);
     }
 
-    private boolean isJump() {
+    private boolean isJumping() {
         return ((getY() + getVelocity()) < (StageBackground.FLOOR_HEIGTH - getHeight()));
+    }
+
+    public static void roll() {
+        setRolling(true);
+    }
+
+    public static void getUp() {
+        setRolling(false);
     }
 
     private void setPlayerOnTheFloor() {
         setY(StageBackground.FLOOR_HEIGTH - getHeight());
+    }
+
+    private int getLastFrame() {
+        if (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) {
+            return LAST_FRAME_STOPPED;
+        } else if (isJumping() && getRemainingJumps() == 1){
+            return LAST_FRAME_JUMPING;
+        } else if (isRolling() || isJumping()) {
+            return LAST_FRAME_ROLLING;
+        } else {
+            return LAST_FRAME_WALKING;
+        }
     }
 
     private String getPlayerFrame(String pathImage, int frameBase, int lastFrame) {
@@ -138,5 +168,13 @@ public class Player extends Object2D {
 
     public static int getRemainingJumps() {
         return remainingJumps;
+    }
+
+    private static void setRolling(boolean isRolling) {
+        Player.isRolling = isRolling;
+    }
+
+    private boolean isRolling() {
+        return isRolling;
     }
 }

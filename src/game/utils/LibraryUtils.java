@@ -7,6 +7,9 @@ public class LibraryUtils {
     public static final String PATH_IMG_PLAYER = String.format("%s/player/", PATH_IMG);
     public static final String PATH_IMG_PLAYER_STOPPED = String.format("%s/player-stopped/", PATH_IMG_PLAYER);
     public static final String PATH_IMG_PLAYER_WALKING = String.format("%s/player-walking/", PATH_IMG_PLAYER);
+    public static final String PATH_IMG_PLAYER_JUMPING = String.format("%s/player-jumping/", PATH_IMG_PLAYER);
+    public static final String PATH_IMG_PLAYER_ROLLING = String.format("%s/player-rolling/", PATH_IMG_PLAYER);
+
 
     public static class StageType {
         public static final String PLAY = "Play";
