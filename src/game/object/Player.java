@@ -7,9 +7,12 @@ public class Player extends Object2D {
     private final int LAST_FRAME_STOPPED = 4;
     private final int LAST_FRAME_WALKING = 8;
     private final int MAX_LIVES = 3;
+    private final int MAX_JUMPS = 2;
+    private static final int FORCE_JUMP = 28;
     private int frameBase;
-    private int velocity;
+    private static int velocity;
     private static int currentTotalLives;
+    private static int remainingJumps;
 
     @Override
     public void updateObject() {
@@ -53,7 +56,7 @@ public class Player extends Object2D {
 
     @Override
     protected void afterCreateObject() {
-
+        setRemainingJumps(MAX_JUMPS);
     }
 
     public void prepareStagePlay() {
@@ -68,11 +71,25 @@ public class Player extends Object2D {
     }
 
     private void updateYCoordinate() {
-        if ((getY() + getVelocity()) > (StageBackground.FLOOR_HEIGTH - getHeight())) {
-            setY(StageBackground.FLOOR_HEIGTH - getHeight());
-        } else {
+        if (isJump()) {
             setY(getY() + getVelocity());
+        } else {
+            setPlayerOnTheFloor();
+            setRemainingJumps(MAX_JUMPS);
         }
+    }
+
+    public static void jump() {
+        setVelocity(-FORCE_JUMP);
+        setRemainingJumps(getRemainingJumps() -1);
+    }
+
+    private boolean isJump() {
+        return ((getY() + getVelocity()) < (StageBackground.FLOOR_HEIGTH - getHeight()));
+    }
+
+    private void setPlayerOnTheFloor() {
+        setY(StageBackground.FLOOR_HEIGTH - getHeight());
     }
 
     private String getPlayerFrame(String pathImage, int frameBase, int lastFrame) {
@@ -99,8 +116,8 @@ public class Player extends Object2D {
         return frameBase;
     }
 
-    private void setVelocity(int velocity) {
-        this.velocity = velocity;
+    private static void setVelocity(int velocity) {
+        Player.velocity = velocity;
     }
 
     private int getVelocity() {
@@ -113,5 +130,13 @@ public class Player extends Object2D {
 
     protected static int getCurrentTotalLives() {
         return currentTotalLives;
+    }
+
+    private static void setRemainingJumps(int remainingJumps) {
+        Player.remainingJumps = remainingJumps;
+    }
+
+    public static int getRemainingJumps() {
+        return remainingJumps;
     }
 }
