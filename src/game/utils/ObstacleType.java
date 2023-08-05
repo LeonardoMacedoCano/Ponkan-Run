@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObstacleType {
-    public static final String CUP = "Cup";
-    public static final String TEA_CUP = "Tea cup";
-    public static final String KNIFE = "Knife";
+    public static final int CUP = 0;
+    public static final int TEA_CUP = 1;
+    public static final int KNIFE = 2;
 
-    private static final List<String> obstacleType = new ArrayList<>();
+    private static final List<Integer> obstacleType = new ArrayList<>();
     static {
         obstacleType.add(CUP);
         obstacleType.add(TEA_CUP);
         obstacleType.add(KNIFE);
     }
 
-    protected static List<String> getObstacleType() {
+    protected static List<Integer> getObstacleType() {
         return obstacleType;
     }
 
-    protected static int getTotalObstacleType() {
+    public static int getTotalObstacleType() {
         return obstacleType.size();
     }
 }

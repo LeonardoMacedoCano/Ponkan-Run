@@ -1,8 +1,7 @@
 package game;
 
 import game.object.*;
-import game.utils.KeyboardAdapter;
-import game.utils.LibraryUtils;
+import game.utils.*;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -17,8 +16,10 @@ public class Stage extends JPanel implements ActionListener {
     private final StageBackground background;
     private final Player player;
     private final List<DefaultInformation> listInformation;
+    private final List<DefaultObstacle> listObstacle;
     private static String currentStageType;
     private static int currentScore;
+    private int millisUntilNextObstacle;
     public static final int GRAVITATIONAL_FORCE = 2;
 
     public Stage() {
@@ -27,6 +28,7 @@ public class Stage extends JPanel implements ActionListener {
         background = new StageBackground();
         player = new Player();
         listInformation = new ArrayList<DefaultInformation>();
+        listObstacle = new ArrayList<DefaultObstacle>();
 
         setFocusable(true);
         setDoubleBuffered(true);
@@ -43,6 +45,7 @@ public class Stage extends JPanel implements ActionListener {
 
         background.paintObject(graphics2D);
         paintListInformation(graphics2D);
+        paintListObstacle(graphics2D);
         player.paintObject(graphics2D);
 
         graphics2D.dispose();
@@ -57,7 +60,9 @@ public class Stage extends JPanel implements ActionListener {
     private void prepareStagePlay() {
         setCurrentStageType(LibraryUtils.StageType.PLAY);
         setCurrentScore(0);
+        setMillisUntilNextObstacle(0);
         player.prepareStagePlay();
+        listObstacle.clear();
     }
 
     public static void prepareStagePlaying() {
@@ -73,6 +78,7 @@ public class Stage extends JPanel implements ActionListener {
         background.updateObject();
         player.updateObject();
         updateListInformation();
+        updateListObstacle();
     }
 
     private void updateListInformation() {
@@ -89,6 +95,30 @@ public class Stage extends JPanel implements ActionListener {
         }
     }
 
+    private void updateListObstacle() {
+        if (getMillisUntilNextObstacle() > 0) {
+            setMillisUntilNextObstacle(getMillisUntilNextObstacle() - 1);
+        } else {
+            addObstacle();
+        }
+    }
+
+    private void addObstacle() {
+        int randomObstacleType = (int)Math.floor(ObstacleType.getTotalObstacleType() * Math.random());
+
+        switch (randomObstacleType) {
+            case ObstacleType.CUP:
+                listObstacle.add(new ObstacleCup());
+                break;
+            case ObstacleType.TEA_CUP:
+                listObstacle.add(new ObstacleTeaCup());
+                break;
+            case ObstacleType.KNIFE:
+                listObstacle.add(new ObstacleKnife());
+                break;
+        }
+    }
+
     private void paintListInformation(Graphics2D graphics2D) {
         DefaultInformation information;
 
@@ -99,6 +129,14 @@ public class Stage extends JPanel implements ActionListener {
             if (information.isUsedTextBox()) {
                 information.paintTextBox(graphics2D);
             }
+        }
+    }
+    private void paintListObstacle(Graphics2D graphics2D) {
+        DefaultObstacle obstacle;
+
+        for (DefaultObstacle defaultObstacle : listObstacle) {
+            obstacle = defaultObstacle;
+            graphics2D.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), this);
         }
     }
 
@@ -116,5 +154,13 @@ public class Stage extends JPanel implements ActionListener {
 
     public static int getCurrentScore() {
         return currentScore;
+    }
+
+    private void setMillisUntilNextObstacle(int millisUntilNextObstacle) {
+        this.millisUntilNextObstacle = millisUntilNextObstacle;
+    }
+
+    private int getMillisUntilNextObstacle() {
+        return millisUntilNextObstacle;
     }
 }
