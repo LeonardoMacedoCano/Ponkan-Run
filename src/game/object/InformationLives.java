@@ -2,7 +2,7 @@ package game.object;
 
 import game.utils.LibraryUtils;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 public class InformationLives extends DefaultInformation {
     @Override

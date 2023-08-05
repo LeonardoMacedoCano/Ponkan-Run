@@ -3,9 +3,9 @@ package game.object;
 import game.Stage;
 import game.utils.LibraryUtils;
 
-public class StageBackground extends Object2D{
+public class StageBackground extends Object2D {
     private final int LAST_FRAME = 34;
-    public static final int FLOOR_HEIGTH = 665;
+    public static final int FLOOR_HEIGHT = 665;
 
     @Override
     public void updateObject() {

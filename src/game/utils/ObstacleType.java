@@ -15,11 +15,11 @@ public class ObstacleType {
         obstacleType.add(KNIFE);
     }
 
-    public static List<String> getObstacleType() {
+    protected static List<String> getObstacleType() {
         return obstacleType;
     }
 
-    public static int getTotalObstacleType() {
+    protected static int getTotalObstacleType() {
         return obstacleType.size();
     }
 }

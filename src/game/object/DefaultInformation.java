@@ -1,35 +1,18 @@
 package game.object;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
-public abstract class DefaultInformation extends Object2D  {
+public abstract class DefaultInformation extends Object2D {
     private boolean usedTextBox;
     private int xText;
     private int yText;
     private AttributedString text;
-
-    @Override
-    public abstract void updateObject();
-
-    @Override
-    public abstract void updateFrame();
-
-    @Override
-    protected abstract void setStartPosition();
-
-    @Override
-    protected abstract String getImageFrame();
-
-    @Override
-    protected abstract void beforeCreateObject();
-
-    @Override
-    protected abstract void afterCreateObject();
 
     protected abstract void createTextBox(Graphics2D graphics2D);
 

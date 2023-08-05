@@ -3,7 +3,7 @@ package game.object;
 import game.Container;
 import game.utils.LibraryUtils;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 public class InformationPlay extends DefaultInformation {
 

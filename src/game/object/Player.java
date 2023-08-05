@@ -4,6 +4,12 @@ import game.Stage;
 import game.utils.LibraryUtils;
 
 public class Player extends Object2D {
+    private int frameBase;
+    private static boolean isRolling;
+    private static int velocity;
+    private static int currentTotalLives;
+    private static int remainingJumps;
+
     private final int LAST_FRAME_JUMPING = 3;
     private final int LAST_FRAME_STOPPED = 4;
     private final int LAST_FRAME_ROLLING = 4;
@@ -11,11 +17,6 @@ public class Player extends Object2D {
     private final int MAX_LIVES = 3;
     private final int MAX_JUMPS = 2;
     private static final int FORCE_JUMP = 28;
-    private int frameBase;
-    private static boolean isRolling;
-    private static int velocity;
-    private static int currentTotalLives;
-    private static int remainingJumps;
 
     @Override
     public void updateObject() {
@@ -95,7 +96,7 @@ public class Player extends Object2D {
     }
 
     private boolean isJumping() {
-        return ((getY() + getVelocity()) < (StageBackground.FLOOR_HEIGTH - getHeight()));
+        return ((getY() + getVelocity()) < (StageBackground.FLOOR_HEIGHT - getHeight()));
     }
 
     public static void roll() {
@@ -107,7 +108,7 @@ public class Player extends Object2D {
     }
 
     private void setPlayerOnTheFloor() {
-        setY(StageBackground.FLOOR_HEIGTH - getHeight());
+        setY(StageBackground.FLOOR_HEIGHT - getHeight());
     }
 
     private int getLastFrame() {
