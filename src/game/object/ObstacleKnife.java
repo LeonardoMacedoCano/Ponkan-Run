@@ -2,6 +2,7 @@ package game.object;
 
 import game.Container;
 import game.utils.LibraryUtils;
+import game.utils.ObstacleType;
 
 public class ObstacleKnife extends DefaultObstacle{
     @Override
@@ -27,7 +28,7 @@ public class ObstacleKnife extends DefaultObstacle{
 
     @Override
     protected void beforeCreateObject() {
-
+        setType(ObstacleType.KNIFE);
     }
 
     @Override

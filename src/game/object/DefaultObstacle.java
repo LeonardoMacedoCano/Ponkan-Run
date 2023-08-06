@@ -1,13 +1,13 @@
 package game.object;
 
 public abstract class DefaultObstacle extends Object2D {
-    private String type;
+    private int type;
 
-    protected void setType (String type) {
+    protected void setType (int type) {
         this.type = type;
     }
 
-    protected String getType () {
+    protected int getType () {
         return type;
     }
 }
