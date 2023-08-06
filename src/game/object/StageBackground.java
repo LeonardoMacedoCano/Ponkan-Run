@@ -3,8 +3,9 @@ package game.object;
 import game.Stage;
 import game.utils.LibraryUtils;
 
+import java.util.Objects;
+
 public class StageBackground extends Object2D {
-    private final int LAST_FRAME = 34;
     public static final int FLOOR_HEIGHT = 665;
 
     @Override
@@ -15,7 +16,8 @@ public class StageBackground extends Object2D {
 
     @Override
     public void updateFrame() {
-        if ((Stage.getCurrentStageType() == LibraryUtils.StageType.PLAYING) && (getFrame() < LAST_FRAME)) {
+        int LAST_FRAME = 34;
+        if ((Objects.equals(Stage.getCurrentStageType(), LibraryUtils.StageType.PLAYING)) && (getFrame() < LAST_FRAME)) {
             setFrame(getFrame() +1);
         } else {
             setFrame(1);

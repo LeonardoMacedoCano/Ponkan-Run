@@ -10,19 +10,18 @@ public class KeyboardAdapter extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_ENTER:
+            case KeyEvent.VK_ENTER -> {
                 if (Stage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
                     Stage.prepareStagePlaying();
                 }
-                break;
-            case KeyEvent.VK_UP:
-                if (Player.getRemainingJumps() > 0)  {
+            }
+            case KeyEvent.VK_UP -> {
+                if (Player.getRemainingJumps() > 0) {
                     Player.jump();
                 }
-                break;
-            case KeyEvent.VK_DOWN:
-                Player.roll();
-                break;
+            }
+            case KeyEvent.VK_DOWN -> Player.roll();
+            default -> throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
         }
     }
 

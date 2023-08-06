@@ -96,13 +96,11 @@ public class Stage extends JPanel implements ActionListener {
         listInformation.clear();
 
         switch (getCurrentStageType()) {
-            case LibraryUtils.StageType.PLAY:
-                listInformation.add(new InformationPlay());
-                break;
-            default:
+            case LibraryUtils.StageType.PLAY -> listInformation.add(new InformationPlay());
+            default -> {
                 listInformation.add(new InformationLives());
                 listInformation.add(new InformationScore());
-                break;
+            }
         }
     }
 
@@ -132,15 +130,9 @@ public class Stage extends JPanel implements ActionListener {
         int randomObstacleType = (int)Math.floor(ObstacleType.getTotalObstacleType() * Math.random());
 
         switch (randomObstacleType) {
-            case ObstacleType.CUP:
-                listObstacle.add(new ObstacleCup());
-                break;
-            case ObstacleType.TEA_CUP:
-                listObstacle.add(new ObstacleTeaCup());
-                break;
-            case ObstacleType.KNIFE:
-                listObstacle.add(new ObstacleKnife());
-                break;
+            case ObstacleType.CUP -> listObstacle.add(new ObstacleCup());
+            case ObstacleType.TEA_CUP -> listObstacle.add(new ObstacleTeaCup());
+            case ObstacleType.KNIFE -> listObstacle.add(new ObstacleKnife());
         }
     }
 
