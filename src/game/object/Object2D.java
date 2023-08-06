@@ -65,7 +65,7 @@ public abstract class Object2D {
         return height;
     }
 
-    protected void setX(int x) {
+    public void setX(int x) {
         this.x = x;
     }
 

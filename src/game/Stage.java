@@ -19,8 +19,12 @@ public class Stage extends JPanel implements ActionListener {
     private final List<DefaultObstacle> listObstacle;
     private static String currentStageType;
     private static int currentScore;
+    private static int currentVelocity;
     private int millisUntilNextObstacle;
+    private static int minDistBetweenObstacles;
     public static final int GRAVITATIONAL_FORCE = 2;
+    public static final int INITIAL_VELOCITY = 8;
+    public static final int INITIAL_MIN_DIST_OBSTACLES = 70;
 
     public Stage() {
         Timer timer = new Timer(10, this);
@@ -60,13 +64,17 @@ public class Stage extends JPanel implements ActionListener {
     private void prepareStagePlay() {
         setCurrentStageType(LibraryUtils.StageType.PLAY);
         setCurrentScore(0);
+        setCurrentVelocity(0);
         setMillisUntilNextObstacle(0);
+        setMinDistBetweenObstacles(0);
         player.prepareStagePlay();
         listObstacle.clear();
     }
 
     public static void prepareStagePlaying() {
         setCurrentStageType(LibraryUtils.StageType.PLAYING);
+        setCurrentVelocity(INITIAL_VELOCITY);
+        setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
     }
 
     private void running() {
@@ -78,7 +86,10 @@ public class Stage extends JPanel implements ActionListener {
         background.updateObject();
         player.updateObject();
         updateListInformation();
-        updateListObstacle();
+
+        if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
+            updateListObstacle();
+        }
     }
 
     private void updateListInformation() {
@@ -96,10 +107,24 @@ public class Stage extends JPanel implements ActionListener {
     }
 
     private void updateListObstacle() {
+        DefaultObstacle obstacle;
+
         if (getMillisUntilNextObstacle() > 0) {
             setMillisUntilNextObstacle(getMillisUntilNextObstacle() - 1);
         } else {
             addObstacle();
+            setRandomMillisUntilNextObstacle();
+        }
+
+        for (int i = 0; i < listObstacle.size(); i++) {
+            obstacle = listObstacle.get(i);
+
+            if ((obstacle.getX() +  obstacle.getWidth() > 0)) {
+                obstacle.setX(obstacle.getX() - getCurrentVelocity());
+            } else {
+                setCurrentScore(getCurrentScore() + 1);
+                listObstacle.remove(i);
+            }
         }
     }
 
@@ -140,6 +165,10 @@ public class Stage extends JPanel implements ActionListener {
         }
     }
 
+    private void setRandomMillisUntilNextObstacle() {
+        setMillisUntilNextObstacle(getMinDistBetweenObstacles() + (int)Math.floor(21 * Math.random()));
+    }
+
     private static void setCurrentStageType(String currentStageType) {
         Stage.currentStageType = currentStageType;
     }
@@ -162,5 +191,21 @@ public class Stage extends JPanel implements ActionListener {
 
     private int getMillisUntilNextObstacle() {
         return millisUntilNextObstacle;
+    }
+
+    private static void setMinDistBetweenObstacles(int minDistBetweenObstacles) {
+        Stage.minDistBetweenObstacles = minDistBetweenObstacles;
+    }
+
+    private int getMinDistBetweenObstacles() {
+        return minDistBetweenObstacles;
+    }
+
+    private static void setCurrentVelocity(int currentVelocity) {
+        Stage.currentVelocity = currentVelocity;
+    }
+
+    private int getCurrentVelocity() {
+        return currentVelocity;
     }
 }
