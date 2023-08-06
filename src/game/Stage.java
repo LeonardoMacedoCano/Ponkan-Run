@@ -89,6 +89,7 @@ public class Stage extends JPanel implements ActionListener {
 
         if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
             updateListObstacle();
+            checkCollisionInListObstacle();
         }
     }
 
@@ -154,6 +155,19 @@ public class Stage extends JPanel implements ActionListener {
         for (DefaultObstacle defaultObstacle : listObstacle) {
             obstacle = defaultObstacle;
             graphics2D.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), this);
+        }
+    }
+
+    private void checkCollisionInListObstacle() {
+        DefaultObstacle obstacle;
+
+        for (int i = 0; i < listObstacle.size(); i++) {
+            obstacle = listObstacle.get(i);
+
+            if (LibraryUtils.checkCollisionBetweenObjects2D(player, obstacle)) {
+                listObstacle.remove(i);
+                player.setCurrentTotalLives(player.getCurrentTotalLives() - 1);
+            }
         }
     }
 

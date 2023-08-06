@@ -155,11 +155,11 @@ public class Player extends Object2D {
         return velocity;
     }
 
-    private void setCurrentTotalLives(int currentTotalLives) {
+    public void setCurrentTotalLives(int currentTotalLives) {
         Player.currentTotalLives = currentTotalLives;
     }
 
-    protected static int getCurrentTotalLives() {
+    public static int getCurrentTotalLives() {
         return currentTotalLives;
     }
 
