@@ -7,7 +7,11 @@ import game.utils.LibraryUtils;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 public class InformationScore extends DefaultInformation {
@@ -52,8 +56,15 @@ public class InformationScore extends DefaultInformation {
         text.addAttribute(TextAttribute.FONT, font);
         text.addAttribute(TextAttribute.FOREGROUND, Color.white);
 
+        AttributedCharacterIterator characterIterator = text.getIterator();
+        FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
+        LineBreakMeasurer lbm = new LineBreakMeasurer(characterIterator, fontRenderContext);
+        TextLayout textLayout = lbm.nextLayout(Integer.MAX_VALUE);
+
         setText(text);
-        setXText((Container.DEFAULT_WIDTH - getTextBoxWidth(graphics2D, getText())) / 2);
-        setYText(75);
+        setTextBoxHeight((int) textLayout.getBounds().getHeight());
+        setTextBoxWidth((int) textLayout.getBounds().getWidth());
+        setXText((Container.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
+        setYText(((getHeight() + getTextBoxHeight()) / 2));
     }
 }
