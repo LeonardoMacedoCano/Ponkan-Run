@@ -12,6 +12,10 @@ public abstract class DefaultInformation extends Object2D {
     private boolean usedTextBox;
     private int xText;
     private int yText;
+
+    private int textBoxWidth;
+
+    private int textBoxHeight;
     private AttributedString text;
 
     protected abstract void createTextBox(Graphics2D graphics2D);
@@ -52,6 +56,22 @@ public abstract class DefaultInformation extends Object2D {
 
     protected void setYText (int yText) {
         this.yText = yText;
+    }
+
+    protected int getTextBoxWidth () {
+        return textBoxWidth;
+    }
+
+    protected void setTextBoxWidth (int textBoxWidth) {
+        this.textBoxWidth = textBoxWidth;
+    }
+
+    protected int getTextBoxHeight () {
+        return textBoxHeight;
+    }
+
+    protected void setTextBoxHeight (int textBoxHeight) {
+        this.textBoxHeight = textBoxHeight;
     }
 
     protected AttributedString getText () {

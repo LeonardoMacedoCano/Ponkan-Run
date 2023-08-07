@@ -77,6 +77,10 @@ public class Stage extends JPanel implements ActionListener {
         setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
     }
 
+    public static void prepareStageLost() {
+        setCurrentStageType(LibraryUtils.StageType.LOST);
+    }
+
     private void running() {
         update();
         repaint();
@@ -98,6 +102,7 @@ public class Stage extends JPanel implements ActionListener {
 
         switch (getCurrentStageType()) {
             case LibraryUtils.StageType.PLAY -> listInformation.add(new InformationPlay());
+            case LibraryUtils.StageType.LOST -> listInformation.add(new InformationLost());
             default -> {
                 listInformation.add(new InformationLives());
                 listInformation.add(new InformationScore());
@@ -167,6 +172,10 @@ public class Stage extends JPanel implements ActionListener {
             if (LibraryUtils.checkCollisionBetweenObjects2D(player, obstacle)) {
                 listObstacle.remove(i);
                 player.setCurrentTotalLives(player.getCurrentTotalLives() - 1);
+
+                if (player.getCurrentTotalLives() <= 0) {
+                    prepareStageLost();
+                }
             }
         }
     }
