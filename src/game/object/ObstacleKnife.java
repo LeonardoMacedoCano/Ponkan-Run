@@ -1,6 +1,6 @@
 package game.object;
 
-import game.Container;
+import game.PonkanRun;
 import game.utils.LibraryUtils;
 import game.utils.ObstacleType;
 
@@ -17,7 +17,7 @@ public class ObstacleKnife extends DefaultObstacle{
 
     @Override
     protected void setStartPosition() {
-        setX(Container.DEFAULT_WIDTH);
+        setX(PonkanRun.DEFAULT_WIDTH);
         setY(315);
     }
 

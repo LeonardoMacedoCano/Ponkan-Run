@@ -1,6 +1,6 @@
 package game.utils;
 
-import game.Stage;
+import game.stage.Stage;
 import game.object.Player;
 
 import java.awt.event.KeyAdapter;

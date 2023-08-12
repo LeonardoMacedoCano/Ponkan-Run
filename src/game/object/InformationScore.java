@@ -1,7 +1,7 @@
 package game.object;
 
-import game.Container;
-import game.Stage;
+import game.PonkanRun;
+import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 import java.awt.Color;
@@ -32,7 +32,7 @@ public class InformationScore extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((Container.DEFAULT_WIDTH - getWidth()) / 2);
+        setX((PonkanRun.DEFAULT_WIDTH - getWidth()) / 2);
         setY(0);
     }
 
@@ -64,7 +64,7 @@ public class InformationScore extends DefaultInformation {
         setText(text);
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
-        setXText((Container.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
+        setXText((PonkanRun.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
         setYText(((getHeight() + getTextBoxHeight()) / 2));
     }
 }

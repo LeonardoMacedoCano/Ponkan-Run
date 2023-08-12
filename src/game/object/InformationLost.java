@@ -1,7 +1,7 @@
 package game.object;
 
-import game.Container;
-import game.Stage;
+import game.PonkanRun;
+import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 import java.awt.Color;
@@ -34,8 +34,8 @@ public class InformationLost extends DefaultInformation {
         setText(text);
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
-        setXText((Container.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
-        setYText((Container.DEFAULT_HEIGHT + getTextBoxHeight()) / 2);
+        setXText((PonkanRun.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
+        setYText((PonkanRun.DEFAULT_HEIGHT + getTextBoxHeight()) / 2);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class InformationLost extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((game.Container.DEFAULT_WIDTH - getWidth()) / 2);
-        setY((Container.DEFAULT_HEIGHT - getHeight()) / 2);
+        setX((game.PonkanRun.DEFAULT_WIDTH - getWidth()) / 2);
+        setY((PonkanRun.DEFAULT_HEIGHT - getHeight()) / 2);
     }
 
     @Override

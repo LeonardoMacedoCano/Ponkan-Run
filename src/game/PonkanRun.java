@@ -1,15 +1,16 @@
 package game;
 
+import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class Container extends JFrame {
+public class PonkanRun extends JFrame {
     public static final int DEFAULT_HEIGHT = 765;
     public static final int DEFAULT_WIDTH = 1040;
 
-    private Container() {
+    private PonkanRun() {
         String TITLE = "Ponkan Run";
         String IMAGE_ICON = String.format("%s/icon.png", LibraryUtils.PATH_IMG_PLAYER);
         ImageIcon icon = new ImageIcon(IMAGE_ICON);
@@ -25,6 +26,6 @@ public class Container extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Container();
+        new PonkanRun();
     }
 }

@@ -1,6 +1,6 @@
 package game.object;
 
-import game.Stage;
+import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 public class Player extends Object2D {

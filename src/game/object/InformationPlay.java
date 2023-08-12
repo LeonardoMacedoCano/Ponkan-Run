@@ -1,6 +1,6 @@
 package game.object;
 
-import game.Container;
+import game.PonkanRun;
 import game.utils.LibraryUtils;
 
 import java.awt.Graphics2D;
@@ -24,8 +24,8 @@ public class InformationPlay extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((Container.DEFAULT_WIDTH - getWidth()) / 2);
-        setY((Container.DEFAULT_HEIGHT - getHeight()) / 2);
+        setX((PonkanRun.DEFAULT_WIDTH - getWidth()) / 2);
+        setY((PonkanRun.DEFAULT_HEIGHT - getHeight()) / 2);
     }
 
     @Override
