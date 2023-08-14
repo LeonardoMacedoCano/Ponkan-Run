@@ -5,6 +5,10 @@ import game.utils.LibraryUtils;
 import game.utils.ObstacleType;
 
 public class ObstacleTeaCup extends DefaultObstacle{
+    public ObstacleTeaCup(PonkanRun game) {
+        super(game);
+    }
+
     @Override
     public void updateObject() {
 

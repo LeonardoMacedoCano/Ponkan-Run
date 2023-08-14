@@ -15,6 +15,10 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 public class InformationScore extends DefaultInformation {
+    public InformationScore(PonkanRun game) {
+        super(game);
+    }
+
     @Override
     protected String getImageFrame() {
         return String.format("%s/panelScore.png", LibraryUtils.PATH_IMG_INFORMATION);

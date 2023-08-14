@@ -12,56 +12,51 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Stage extends JPanel implements ActionListener {
+public class Stage {
+    private PonkanRun game;
+    private static Timer timer;
     private final StageBackground background;
-    private final Player player;
     private final List<DefaultInformation> listInformation;
     private final List<DefaultObstacle> listObstacle;
     private static String currentStageType;
     private static int currentScore;
     private static int currentVelocity;
     private int millisUntilNextObstacle;
+    private boolean active;
     private static int minDistBetweenObstacles;
     public static final int GRAVITATIONAL_FORCE = 2;
     public static final int INITIAL_VELOCITY = 8;
     public static final int INITIAL_MIN_DIST_OBSTACLES = 70;
 
-    public Stage() {
-        Timer timer = new Timer(10, this);
+    public class Listener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            Stage.timer.stop();
 
-        background = new StageBackground();
-        player = new Player();
+            System.gc();
+        }
+    }
+
+    public Stage(PonkanRun game) {
+        this.game = game;
+
+        this.timer = new Timer(2000, new Listener());
+        background = new StageBackground(game);
         listInformation = new ArrayList<DefaultInformation>();
         listObstacle = new ArrayList<DefaultObstacle>();
 
-        setFocusable(true);
-        setDoubleBuffered(true);
-        addKeyListener(new KeyboardAdapter());
-
-        timer.start();
-        prepareStagePlay();
-        running();
+        setActive(false);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D graphics2D = (Graphics2D) g;
+    public void start() {
+        setActive(true);
+        timer.start();
+        prepareStagePlay();
+    }
 
-        graphics2D.setColor(Color.WHITE);
-        graphics2D.fillRect(0, 0, game.PonkanRun.DEFAULT_WIDTH, PonkanRun.DEFAULT_HEIGHT);
-
+    public void paint(Graphics2D graphics2D) {
         background.paintObject(graphics2D);
         paintListInformation(graphics2D);
         paintListObstacle(graphics2D);
-        player.paintObject(graphics2D);
-
-        graphics2D.dispose();
-        super.paint(g);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        running();
     }
 
     private void prepareStagePlay() {
@@ -70,7 +65,7 @@ public class Stage extends JPanel implements ActionListener {
         setCurrentVelocity(0);
         setMillisUntilNextObstacle(0);
         setMinDistBetweenObstacles(0);
-        player.prepareStagePlay();
+        this.game.player.prepareStagePlay();
         listObstacle.clear();
     }
 
@@ -84,14 +79,8 @@ public class Stage extends JPanel implements ActionListener {
         setCurrentStageType(LibraryUtils.StageType.LOST);
     }
 
-    private void running() {
-        update();
-        repaint();
-    }
-
-    private void update() {
+    public void update() {
         background.updateObject();
-        player.updateObject();
         updateListInformation();
 
         if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
@@ -104,11 +93,11 @@ public class Stage extends JPanel implements ActionListener {
         listInformation.clear();
 
         switch (getCurrentStageType()) {
-            case LibraryUtils.StageType.PLAY -> listInformation.add(new InformationPlay());
-            case LibraryUtils.StageType.LOST -> listInformation.add(new InformationLost());
+            case LibraryUtils.StageType.PLAY -> listInformation.add(new InformationPlay(game));
+            case LibraryUtils.StageType.LOST -> listInformation.add(new InformationLost(game));
             default -> {
-                listInformation.add(new InformationLives());
-                listInformation.add(new InformationScore());
+                listInformation.add(new InformationLives(game));
+                listInformation.add(new InformationScore(game));
             }
         }
     }
@@ -139,9 +128,9 @@ public class Stage extends JPanel implements ActionListener {
         int randomObstacleType = (int)Math.floor(ObstacleType.getTotalObstacleType() * Math.random());
 
         switch (randomObstacleType) {
-            case ObstacleType.CUP -> listObstacle.add(new ObstacleCup());
-            case ObstacleType.TEA_CUP -> listObstacle.add(new ObstacleTeaCup());
-            case ObstacleType.KNIFE -> listObstacle.add(new ObstacleKnife());
+            case ObstacleType.CUP -> listObstacle.add(new ObstacleCup(game));
+            case ObstacleType.TEA_CUP -> listObstacle.add(new ObstacleTeaCup(game));
+            case ObstacleType.KNIFE -> listObstacle.add(new ObstacleKnife(game));
         }
     }
 
@@ -150,7 +139,7 @@ public class Stage extends JPanel implements ActionListener {
 
         for (DefaultInformation defaultInformation : listInformation) {
             information = defaultInformation;
-            graphics2D.drawImage(information.getImage(), information.getX(), information.getY(), information.getWidth(), information.getHeight(), this);
+            graphics2D.drawImage(information.getImage(), information.getX(), information.getY(), information.getWidth(), information.getHeight(), this.game);
 
             if (information.isUsedTextBox()) {
                 information.paintTextBox(graphics2D);
@@ -162,7 +151,7 @@ public class Stage extends JPanel implements ActionListener {
 
         for (DefaultObstacle defaultObstacle : listObstacle) {
             obstacle = defaultObstacle;
-            graphics2D.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), this);
+            graphics2D.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), this.game);
         }
     }
 
@@ -172,11 +161,11 @@ public class Stage extends JPanel implements ActionListener {
         for (int i = 0; i < listObstacle.size(); i++) {
             obstacle = listObstacle.get(i);
 
-            if (LibraryUtils.checkCollisionBetweenObjects2D(player, obstacle)) {
+            if (LibraryUtils.checkCollisionBetweenObjects2D(this.game.player, obstacle)) {
                 listObstacle.remove(i);
-                player.setCurrentTotalLives(player.getCurrentTotalLives() - 1);
+                this.game.player.setCurrentTotalLives(this.game.player.getCurrentTotalLives() - 1);
 
-                if (player.getCurrentTotalLives() <= 0) {
+                if (this.game.player.getCurrentTotalLives() <= 0) {
                     prepareStageLost();
                 }
             }
@@ -225,5 +214,13 @@ public class Stage extends JPanel implements ActionListener {
 
     private int getCurrentVelocity() {
         return currentVelocity;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    protected void setActive (boolean active) {
+        this.active = active;
     }
 }

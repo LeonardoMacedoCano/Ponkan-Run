@@ -1,5 +1,7 @@
 package game.object;
 
+import game.PonkanRun;
+
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
@@ -17,6 +19,10 @@ public abstract class DefaultInformation extends Object2D {
 
     private int textBoxHeight;
     private AttributedString text;
+
+    public DefaultInformation(PonkanRun game) {
+        super(game);
+    }
 
     protected abstract void createTextBox(Graphics2D graphics2D);
 

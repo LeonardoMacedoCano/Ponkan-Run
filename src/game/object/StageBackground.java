@@ -1,5 +1,6 @@
 package game.object;
 
+import game.PonkanRun;
 import game.stage.Stage;
 import game.utils.LibraryUtils;
 
@@ -7,6 +8,10 @@ import java.util.Objects;
 
 public class StageBackground extends Object2D {
     public static final int FLOOR_HEIGHT = 665;
+
+    public StageBackground(PonkanRun game) {
+        super(game);
+    }
 
     @Override
     public void updateObject() {

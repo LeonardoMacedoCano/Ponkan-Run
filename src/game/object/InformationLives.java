@@ -1,10 +1,15 @@
 package game.object;
 
+import game.PonkanRun;
 import game.utils.LibraryUtils;
 
 import java.awt.Graphics2D;
 
 public class InformationLives extends DefaultInformation {
+    public InformationLives(PonkanRun game) {
+        super(game);
+    }
+
     @Override
     protected String getImageFrame() {
         return String.format("%s/panelLives%d.png", LibraryUtils.PATH_IMG_INFORMATION, Player.getCurrentTotalLives());

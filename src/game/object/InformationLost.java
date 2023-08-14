@@ -15,6 +15,10 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 public class InformationLost extends DefaultInformation {
+    public InformationLost(PonkanRun game) {
+        super(game);
+    }
+
     @Override
     protected void createTextBox(Graphics2D graphics2D) {
         AttributedString text;

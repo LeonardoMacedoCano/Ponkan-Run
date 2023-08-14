@@ -1,5 +1,6 @@
 package game.object;
 
+import game.PonkanRun;
 import game.stage.Stage;
 import game.utils.LibraryUtils;
 
@@ -17,6 +18,10 @@ public class Player extends Object2D {
     private final int MAX_LIVES = 3;
     private final int MAX_JUMPS = 2;
     private static final int FORCE_JUMP = 28;
+
+    public Player(PonkanRun game) {
+        super(game);
+    }
 
     @Override
     public void updateObject() {

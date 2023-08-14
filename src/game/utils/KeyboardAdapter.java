@@ -1,5 +1,6 @@
 package game.utils;
 
+import game.PonkanRun;
 import game.stage.Stage;
 import game.object.Player;
 
@@ -7,6 +8,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyboardAdapter extends KeyAdapter {
+    private PonkanRun game;
+
+    public KeyboardAdapter(PonkanRun game) {
+        this.game = game;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {

@@ -5,6 +5,10 @@ import game.utils.LibraryUtils;
 import game.utils.ObstacleType;
 
 public class ObstacleKnife extends DefaultObstacle{
+    public ObstacleKnife(PonkanRun game) {
+        super(game);
+    }
+
     @Override
     public void updateObject() {
 

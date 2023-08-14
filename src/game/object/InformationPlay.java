@@ -7,6 +7,10 @@ import java.awt.Graphics2D;
 
 public class InformationPlay extends DefaultInformation {
 
+    public InformationPlay(PonkanRun game) {
+        super(game);
+    }
+
     @Override
     protected String getImageFrame() {
         return String.format("%s/panelPlay.png", LibraryUtils.PATH_IMG_INFORMATION);

@@ -1,5 +1,7 @@
 package game.object;
 
+import game.PonkanRun;
+
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,10 +13,12 @@ public abstract class Object2D {
     private int width;
     private Image image;
     private int frame;
+    private PonkanRun game;
 
-    public Object2D() {
+    public Object2D(PonkanRun game) {
         beforeCreateObject();
-        
+
+        this.game = game;
         setFrame(1);
         setImage();
         setHeight();
