@@ -16,7 +16,7 @@ public class InformationLives extends DefaultInformation {
     }
 
     @Override
-    public void updateObject() {
+    public void update() {
 
     }
 

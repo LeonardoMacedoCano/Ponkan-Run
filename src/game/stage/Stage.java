@@ -46,14 +46,14 @@ public class Stage implements Animation {
     }
 
     public void paint(Graphics2D graphics2D) {
-        background.paintObject(graphics2D);
+        background.paint(graphics2D);
         paintListInformation(graphics2D);
         paintListObstacle(graphics2D);
     }
 
     @Override
     public void update() {
-        background.updateObject();
+        background.update();
         updateListInformation();
 
         if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {

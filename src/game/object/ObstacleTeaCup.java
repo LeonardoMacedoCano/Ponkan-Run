@@ -10,7 +10,7 @@ public class ObstacleTeaCup extends DefaultObstacle{
     }
 
     @Override
-    public void updateObject() {
+    public void update() {
 
     }
 

@@ -42,7 +42,7 @@ public class InformationLost extends DefaultInformation {
     }
 
     @Override
-    public void updateObject() {
+    public void update() {
 
     }
 

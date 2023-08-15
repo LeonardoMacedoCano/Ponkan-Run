@@ -13,7 +13,7 @@ public class StageBackground extends Object2D {
     }
 
     @Override
-    public void updateObject() {
+    public void update() {
         updateFrame();
         setImage();
     }

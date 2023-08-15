@@ -53,7 +53,7 @@ public class PonkanRun extends JFrame implements Animation {
     @Override
     public void update() {
         this.currentStage.update();
-        this.player.updateObject();
+        this.player.update();
     }
 
     public void paint(Graphics2D graphics2D) {
@@ -61,7 +61,7 @@ public class PonkanRun extends JFrame implements Animation {
         graphics2D.fillRect(0, 0, this.screenWidth, this.screenHeight);
 
         this.currentStage.paint(graphics2D);
-        this.player.paintObject(graphics2D);
+        this.player.paint(graphics2D);
 
         graphics2D.dispose();
         super.paint(graphics2D);

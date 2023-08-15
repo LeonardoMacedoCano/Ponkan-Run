@@ -17,7 +17,7 @@ public class InformationPlay extends DefaultInformation {
     }
 
     @Override
-    public void updateObject() {
+    public void update() {
 
     }
 

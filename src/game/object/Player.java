@@ -21,7 +21,7 @@ public class Player extends Object2D {
     }
 
     @Override
-    public void updateObject() {
+    public void update() {
         updateVelocity();
         updateFrame();
         setImage();

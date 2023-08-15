@@ -1,12 +1,12 @@
 package game.object;
 
 import game.PonkanRun;
+import game.utils.Animation;
 
 import javax.swing.ImageIcon;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 
-public abstract class Object2D {
+public abstract class Object2D implements Animation {
     private int x;
     private int y;
     private int height;
@@ -27,7 +27,11 @@ public abstract class Object2D {
         afterCreateObject();
     }
 
-    public abstract void updateObject();
+    public abstract void update();
+
+    public void paint(Graphics2D graphics2D){
+        graphics2D.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.game);
+    }
 
     public abstract void updateFrame();
 
@@ -38,10 +42,6 @@ public abstract class Object2D {
     protected abstract void beforeCreateObject();
 
     protected abstract void afterCreateObject();
-
-    public void paintObject(Graphics graphics) {
-        graphics.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.game);
-    }
 
     protected void setImage() {
         ImageIcon image = new ImageIcon(getImageFrame());
