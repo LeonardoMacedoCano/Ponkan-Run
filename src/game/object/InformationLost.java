@@ -1,7 +1,6 @@
 package game.object;
 
 import game.PonkanRun;
-import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 import java.awt.Color;
@@ -25,7 +24,7 @@ public class InformationLost extends DefaultInformation {
         Font font;
 
         font = new Font("TimesRoman", Font.PLAIN, 45);
-        text = new AttributedString(String.format("Score: %03d", Stage.getCurrentScore()));
+        text = new AttributedString(String.format("Score: %03d", this.game.currentStage.getCurrentScore()));
 
         text.addAttribute(TextAttribute.FONT, font);
         text.addAttribute(TextAttribute.FOREGROUND, Color.white);
@@ -38,8 +37,8 @@ public class InformationLost extends DefaultInformation {
         setText(text);
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
-        setXText((PonkanRun.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
-        setYText((PonkanRun.DEFAULT_HEIGHT + getTextBoxHeight()) / 2);
+        setXText((this.game.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
+        setYText((this.game.DEFAULT_HEIGHT + getTextBoxHeight()) / 2);
     }
 
     @Override
@@ -54,8 +53,8 @@ public class InformationLost extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((game.PonkanRun.DEFAULT_WIDTH - getWidth()) / 2);
-        setY((PonkanRun.DEFAULT_HEIGHT - getHeight()) / 2);
+        setX((this.game.DEFAULT_WIDTH - getWidth()) / 2);
+        setY((this.game.DEFAULT_HEIGHT - getHeight()) / 2);
     }
 
     @Override

@@ -14,9 +14,7 @@ public abstract class DefaultInformation extends Object2D {
     private boolean usedTextBox;
     private int xText;
     private int yText;
-
     private int textBoxWidth;
-
     private int textBoxHeight;
     private AttributedString text;
 

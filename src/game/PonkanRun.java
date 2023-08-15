@@ -17,13 +17,13 @@ public class PonkanRun extends JFrame implements Animation {
     private BufferStrategy bufferStrategy;
     private final KeyboardAdapter keyboardAdapter;
     private final CustomTimer customTimer;
-    private final Stage currentStage;
+    public final Stage currentStage;
     public Player player;
     private boolean active;
     private int screenWidth;
     private int screenHeight;
-    public static final int DEFAULT_HEIGHT = 728;
-    public static final int DEFAULT_WIDTH = 1024;
+    public final int DEFAULT_HEIGHT = 728;
+    public final int DEFAULT_WIDTH = 1024;
 
     public PonkanRun() {
         String TITLE = "Ponkan Run";
@@ -50,6 +50,23 @@ public class PonkanRun extends JFrame implements Animation {
         }
     }
 
+    @Override
+    public void update() {
+        this.currentStage.update();
+        this.player.updateObject();
+    }
+
+    public void paint(Graphics2D graphics2D) {
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.fillRect(0, 0, this.screenWidth, this.screenHeight);
+
+        this.currentStage.paint(graphics2D);
+        this.player.paintObject(graphics2D);
+
+        graphics2D.dispose();
+        super.paint(graphics2D);
+    }
+
     public void startGame() {
         System.gc();
 
@@ -71,11 +88,6 @@ public class PonkanRun extends JFrame implements Animation {
         this.removeKeyListener(this.keyboardAdapter);
     }
 
-    public void update() {
-        this.currentStage.update();
-        this.player.updateObject();
-    }
-
     private void render() {
         try {
             Graphics2D graphics2D = (Graphics2D) this.getGraphicContext();
@@ -87,17 +99,6 @@ public class PonkanRun extends JFrame implements Animation {
 
             Toolkit.getDefaultToolkit().sync();
         } catch(Exception e){e.printStackTrace();}
-    }
-
-    public void paint(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.WHITE);
-        graphics2D.fillRect(0, 0, this.screenWidth, this.screenHeight);
-
-        this.currentStage.paint(graphics2D);
-        this.player.paintObject(graphics2D);
-
-        graphics2D.dispose();
-        super.paint(graphics2D);
     }
 
     public void resetTime() {

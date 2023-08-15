@@ -21,7 +21,7 @@ public class ObstacleKnife extends DefaultObstacle{
 
     @Override
     protected void setStartPosition() {
-        setX(PonkanRun.DEFAULT_WIDTH);
+        setX(this.game.DEFAULT_WIDTH);
         setY(315);
     }
 

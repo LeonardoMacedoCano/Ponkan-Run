@@ -1,13 +1,12 @@
 package game.object;
 
 import game.PonkanRun;
-import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 import java.util.Objects;
 
 public class StageBackground extends Object2D {
-    public static final int FLOOR_HEIGHT = 665;
+    public final int FLOOR_HEIGHT = 665;
 
     public StageBackground(PonkanRun game) {
         super(game);
@@ -22,7 +21,7 @@ public class StageBackground extends Object2D {
     @Override
     public void updateFrame() {
         int LAST_FRAME = 34;
-        if ((Objects.equals(Stage.getCurrentStageType(), LibraryUtils.StageType.PLAYING)) && (getFrame() < LAST_FRAME)) {
+        if ((Objects.equals(this.game.currentStage.getCurrentStageType(), LibraryUtils.StageType.PLAYING)) && (getFrame() < LAST_FRAME)) {
             setFrame(getFrame() +1);
         } else {
             setFrame(1);

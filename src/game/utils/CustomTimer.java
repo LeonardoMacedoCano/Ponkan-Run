@@ -5,28 +5,22 @@ public class CustomTimer {
     private long statIntervalNanos = 0L;
     private long previousStatisticTime;
     private long frameCounter = 0;
-    private double FPSRecorder[];
+    private double[] FPSRecorder;
     private long statisticsCounter = 0;
     private double averageFPS = 0.0;
     private long skippedFrames = 0L;
     private long totalSkippedFrames = 0L;
-    private double UPSRecorder[];
+    private double[] UPSRecorder;
     private double averageUPS = 0.0;
     private long elapsedTime = 0L;
     private long time;
     private long timeBefore;
-    private long tempoAfter;
     private long sleepTime;
-    private long acquiredTime;
     private long jumps;
     private long delay = 0;
-    private long maxDelays = 1;
     private long numDelays = 0;
     private long excess = 0;
-
-    private final int MAX_FRAME_JUMP = 25;
     private final int NUM_FPS_FOR_AVERAGE = 10;
-    private final long MAX_INTERVAL_FOR_STATISTICS = 1000000000L;
 
     public CustomTimer(Animation origin, int time) {
         this.origin = origin;
@@ -40,8 +34,8 @@ public class CustomTimer {
     }
 
     public void normalize() {
-        tempoAfter = System.nanoTime();
-        acquiredTime = tempoAfter - timeBefore;
+        long tempoAfter = System.nanoTime();
+        long acquiredTime = tempoAfter - timeBefore;
         sleepTime = (time - acquiredTime) - delay;
 
         if(sleepTime > 0) {
@@ -52,6 +46,7 @@ public class CustomTimer {
         } else {
             excess -= sleepTime;
             delay = 0L;
+            long maxDelays = 1;
             if (++numDelays >= maxDelays) {
                 Thread.yield();
                 numDelays = 0;
@@ -63,11 +58,10 @@ public class CustomTimer {
     public void skipFrames() {
         jumps = 0;
 
-        while((excess > this.time) && (jumps < MAX_FRAME_JUMP)) {
+        int MAX_FRAME_JUMP = 25;
+        while ((excess > this.time) && (jumps < MAX_FRAME_JUMP)) {
             excess -= this.time;
-
             if (this.origin != null) this.origin.update();
-
             jumps++;
         }
         skippedFrames += jumps;
@@ -77,6 +71,7 @@ public class CustomTimer {
         ++frameCounter;
         statIntervalNanos += time;
 
+        long MAX_INTERVAL_FOR_STATISTICS = 1000000000L;
         if (statIntervalNanos >= MAX_INTERVAL_FOR_STATISTICS) {
             double currentFPS = 0.0;
             double currentUPS = 0.0;

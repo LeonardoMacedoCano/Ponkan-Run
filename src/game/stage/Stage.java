@@ -4,7 +4,6 @@ import game.PonkanRun;
 import game.object.*;
 import game.utils.*;
 
-import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,26 +11,25 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Stage {
-    private PonkanRun game;
+public class Stage implements Animation {
+    private final PonkanRun game;
     private static Timer timer;
-    private final StageBackground background;
+    public final StageBackground background;
     private final List<DefaultInformation> listInformation;
     private final List<DefaultObstacle> listObstacle;
-    private static String currentStageType;
-    private static int currentScore;
-    private static int currentVelocity;
+    private String currentStageType;
+    private int currentScore;
+    private int currentVelocity;
     private int millisUntilNextObstacle;
     private boolean active;
-    private static int minDistBetweenObstacles;
-    public static final int GRAVITATIONAL_FORCE = 2;
-    public static final int INITIAL_VELOCITY = 8;
-    public static final int INITIAL_MIN_DIST_OBSTACLES = 70;
+    private int minDistBetweenObstacles;
+    public final int GRAVITATIONAL_FORCE = 2;
+    public final int INITIAL_VELOCITY = 8;
+    public final int INITIAL_MIN_DIST_OBSTACLES = 70;
 
-    public class Listener implements ActionListener {
+    public static class Listener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Stage.timer.stop();
-
             System.gc();
         }
     }
@@ -39,24 +37,35 @@ public class Stage {
     public Stage(PonkanRun game) {
         this.game = game;
 
-        this.timer = new Timer(2000, new Listener());
+        timer = new Timer(2000, new Listener());
         background = new StageBackground(game);
-        listInformation = new ArrayList<DefaultInformation>();
-        listObstacle = new ArrayList<DefaultObstacle>();
+        listInformation = new ArrayList<>();
+        listObstacle = new ArrayList<>();
 
         setActive(false);
-    }
-
-    public void start() {
-        setActive(true);
-        timer.start();
-        prepareStagePlay();
     }
 
     public void paint(Graphics2D graphics2D) {
         background.paintObject(graphics2D);
         paintListInformation(graphics2D);
         paintListObstacle(graphics2D);
+    }
+
+    @Override
+    public void update() {
+        background.updateObject();
+        updateListInformation();
+
+        if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
+            updateListObstacle();
+            checkCollisionInListObstacle();
+        }
+    }
+
+    public void start() {
+        setActive(true);
+        timer.start();
+        prepareStagePlay();
     }
 
     private void prepareStagePlay() {
@@ -69,24 +78,14 @@ public class Stage {
         listObstacle.clear();
     }
 
-    public static void prepareStagePlaying() {
+    public void prepareStagePlaying() {
         setCurrentStageType(LibraryUtils.StageType.PLAYING);
         setCurrentVelocity(INITIAL_VELOCITY);
         setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
     }
 
-    public static void prepareStageLost() {
+    public void prepareStageLost() {
         setCurrentStageType(LibraryUtils.StageType.LOST);
-    }
-
-    public void update() {
-        background.updateObject();
-        updateListInformation();
-
-        if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
-            updateListObstacle();
-            checkCollisionInListObstacle();
-        }
     }
 
     private void updateListInformation() {
@@ -176,19 +175,19 @@ public class Stage {
         setMillisUntilNextObstacle(getMinDistBetweenObstacles() + (int)Math.floor(21 * Math.random()));
     }
 
-    private static void setCurrentStageType(String currentStageType) {
-        Stage.currentStageType = currentStageType;
+    private void setCurrentStageType(String currentStageType) {
+        this.currentStageType = currentStageType;
     }
 
-    public static String getCurrentStageType() {
+    public String getCurrentStageType() {
         return currentStageType;
     }
 
-    private static void setCurrentScore(int currentScore) {
-        Stage.currentScore = currentScore;
+    private void setCurrentScore(int currentScore) {
+        this.currentScore = currentScore;
     }
 
-    public static int getCurrentScore() {
+    public int getCurrentScore() {
         return currentScore;
     }
 
@@ -200,16 +199,16 @@ public class Stage {
         return millisUntilNextObstacle;
     }
 
-    private static void setMinDistBetweenObstacles(int minDistBetweenObstacles) {
-        Stage.minDistBetweenObstacles = minDistBetweenObstacles;
+    private void setMinDistBetweenObstacles(int minDistBetweenObstacles) {
+        this.minDistBetweenObstacles = minDistBetweenObstacles;
     }
 
     private int getMinDistBetweenObstacles() {
         return minDistBetweenObstacles;
     }
 
-    private static void setCurrentVelocity(int currentVelocity) {
-        Stage.currentVelocity = currentVelocity;
+    private void setCurrentVelocity(int currentVelocity) {
+        this.currentVelocity = currentVelocity;
     }
 
     private int getCurrentVelocity() {

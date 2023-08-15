@@ -1,23 +1,20 @@
 package game.object;
 
 import game.PonkanRun;
-import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 public class Player extends Object2D {
     private int frameBase;
-    private static boolean isRolling;
-    private static int velocity;
-    private static int currentTotalLives;
-    private static int remainingJumps;
-
+    private boolean isRolling;
+    private int velocity;
+    private int currentTotalLives;
+    private int remainingJumps;
     private final int LAST_FRAME_JUMPING = 3;
     private final int LAST_FRAME_STOPPED = 4;
     private final int LAST_FRAME_ROLLING = 4;
     private final int LAST_FRAME_WALKING = 8;
     private final int MAX_LIVES = 3;
     private final int MAX_JUMPS = 2;
-    private static final int FORCE_JUMP = 28;
 
     public Player(PonkanRun game) {
         super(game);
@@ -50,7 +47,7 @@ public class Player extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        if (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) {
+        if (LibraryUtils.StageType.PLAY.equals(this.game.currentStage.getCurrentStageType())) {
             return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_STOPPED, getFrameBase(), LAST_FRAME_STOPPED));
         } else {
             if (isJumping() && getRemainingJumps() == 1) {
@@ -83,7 +80,7 @@ public class Player extends Object2D {
     }
 
     private void updateVelocity() {
-        setVelocity(getVelocity() + Stage.GRAVITATIONAL_FORCE);
+        setVelocity(getVelocity() + this.game.currentStage.GRAVITATIONAL_FORCE);
     }
 
     private void updateYCoordinate() {
@@ -95,29 +92,30 @@ public class Player extends Object2D {
         }
     }
 
-    public static void jump() {
+    public void jump() {
+        int FORCE_JUMP = 28;
         setVelocity(-FORCE_JUMP);
         setRemainingJumps(getRemainingJumps() -1);
     }
 
     private boolean isJumping() {
-        return ((getY() + getVelocity()) < (StageBackground.FLOOR_HEIGHT - getHeight()));
+        return ((getY() + getVelocity()) < (this.game.currentStage.background.FLOOR_HEIGHT - getHeight()));
     }
 
-    public static void roll() {
+    public void roll() {
         setRolling(true);
     }
 
-    public static void getUp() {
+    public void getUp() {
         setRolling(false);
     }
 
     private void setPlayerOnTheFloor() {
-        setY(StageBackground.FLOOR_HEIGHT - getHeight());
+        setY(this.game.currentStage.background.FLOOR_HEIGHT - getHeight());
     }
 
     private int getLastFrame() {
-        if (LibraryUtils.StageType.PLAY.equals(Stage.getCurrentStageType())) {
+        if (LibraryUtils.StageType.PLAY.equals(this.game.currentStage.getCurrentStageType())) {
             return LAST_FRAME_STOPPED;
         } else if (isJumping() && getRemainingJumps() == 1){
             return LAST_FRAME_JUMPING;
@@ -152,8 +150,8 @@ public class Player extends Object2D {
         return frameBase;
     }
 
-    private static void setVelocity(int velocity) {
-        Player.velocity = velocity;
+    private void setVelocity(int velocity) {
+        this.velocity = velocity;
     }
 
     private int getVelocity() {
@@ -161,23 +159,23 @@ public class Player extends Object2D {
     }
 
     public void setCurrentTotalLives(int currentTotalLives) {
-        Player.currentTotalLives = currentTotalLives;
+        this.currentTotalLives = currentTotalLives;
     }
 
-    public static int getCurrentTotalLives() {
+    public int getCurrentTotalLives() {
         return currentTotalLives;
     }
 
-    private static void setRemainingJumps(int remainingJumps) {
-        Player.remainingJumps = remainingJumps;
+    private void setRemainingJumps(int remainingJumps) {
+        this.remainingJumps = remainingJumps;
     }
 
-    public static int getRemainingJumps() {
+    public int getRemainingJumps() {
         return remainingJumps;
     }
 
-    private static void setRolling(boolean isRolling) {
-        Player.isRolling = isRolling;
+    private void setRolling(boolean isRolling) {
+        this.isRolling = isRolling;
     }
 
     private boolean isRolling() {

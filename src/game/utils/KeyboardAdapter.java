@@ -1,14 +1,12 @@
 package game.utils;
 
 import game.PonkanRun;
-import game.stage.Stage;
-import game.object.Player;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyboardAdapter extends KeyAdapter {
-    private PonkanRun game;
+    private final PonkanRun game;
 
     public KeyboardAdapter(PonkanRun game) {
         this.game = game;
@@ -18,24 +16,20 @@ public class KeyboardAdapter extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER -> {
-                if (Stage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
-                    Stage.prepareStagePlaying();
+                if (this.game.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
+                    this.game.currentStage.prepareStagePlaying();
                 }
             }
             case KeyEvent.VK_UP -> {
-                if (Player.getRemainingJumps() > 0) {
-                    Player.jump();
-                }
+                if (this.game.player.getRemainingJumps() > 0) this.game.player.jump();
             }
-            case KeyEvent.VK_DOWN -> Player.roll();
+            case KeyEvent.VK_DOWN -> this.game.player.roll();
             default -> throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            Player.getUp();
-        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) this.game.player.getUp();
     }
 }

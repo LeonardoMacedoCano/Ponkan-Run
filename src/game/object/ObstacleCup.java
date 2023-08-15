@@ -21,8 +21,8 @@ public class ObstacleCup extends DefaultObstacle {
 
     @Override
     protected void setStartPosition() {
-        setX(PonkanRun.DEFAULT_WIDTH);
-        setY(StageBackground.FLOOR_HEIGHT - getHeight());
+        setX(this.game.DEFAULT_WIDTH);
+        setY(this.game.currentStage.background.FLOOR_HEIGHT - getHeight());
     }
 
     @Override

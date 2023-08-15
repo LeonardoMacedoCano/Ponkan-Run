@@ -12,7 +12,7 @@ public class InformationLives extends DefaultInformation {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/panelLives%d.png", LibraryUtils.PATH_IMG_INFORMATION, Player.getCurrentTotalLives());
+        return String.format("%s/panelLives%d.png", LibraryUtils.PATH_IMG_INFORMATION, this.game.player.getCurrentTotalLives());
     }
 
     @Override

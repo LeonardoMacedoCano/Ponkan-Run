@@ -13,18 +13,17 @@ public abstract class Object2D {
     private int width;
     private Image image;
     private int frame;
-    private PonkanRun game;
+    protected PonkanRun game;
 
     public Object2D(PonkanRun game) {
-        beforeCreateObject();
-
         this.game = game;
+
+        beforeCreateObject();
         setFrame(1);
         setImage();
         setHeight();
         setWidth();
         setStartPosition();
-
         afterCreateObject();
     }
 
@@ -41,7 +40,7 @@ public abstract class Object2D {
     protected abstract void afterCreateObject();
 
     public void paintObject(Graphics graphics) {
-        graphics.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
+        graphics.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.game);
     }
 
     protected void setImage() {

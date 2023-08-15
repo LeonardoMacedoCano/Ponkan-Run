@@ -28,8 +28,8 @@ public class InformationPlay extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((PonkanRun.DEFAULT_WIDTH - getWidth()) / 2);
-        setY((PonkanRun.DEFAULT_HEIGHT - getHeight()) / 2);
+        setX((this.game.DEFAULT_WIDTH - getWidth()) / 2);
+        setY((this.game.DEFAULT_HEIGHT - getHeight()) / 2);
     }
 
     @Override

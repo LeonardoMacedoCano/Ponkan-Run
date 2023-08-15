@@ -16,7 +16,6 @@ public class LibraryUtils {
     public static final String PATH_IMG_PLAYER_ROLLING = String.format("%s/player-rolling/", PATH_IMG_PLAYER);
     public static final String PATH_IMG_OBSTACLE = String.format("%s/obstacle/", PATH_IMG);
 
-
     public static class StageType {
         public static final String PLAY = "Play";
         public static final String PLAYING = "Playing";

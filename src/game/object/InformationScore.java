@@ -1,7 +1,6 @@
 package game.object;
 
 import game.PonkanRun;
-import game.stage.Stage;
 import game.utils.LibraryUtils;
 
 import java.awt.Color;
@@ -36,7 +35,7 @@ public class InformationScore extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((PonkanRun.DEFAULT_WIDTH - getWidth()) / 2);
+        setX((this.game.DEFAULT_WIDTH - getWidth()) / 2);
         setY(0);
     }
 
@@ -56,7 +55,7 @@ public class InformationScore extends DefaultInformation {
         Font font;
 
         font = new Font("TimesRoman", Font.PLAIN, 50);
-        text = new AttributedString(String.format("%03d", Stage.getCurrentScore()));
+        text = new AttributedString(String.format("%03d", this.game.currentStage.getCurrentScore()));
         text.addAttribute(TextAttribute.FONT, font);
         text.addAttribute(TextAttribute.FOREGROUND, Color.white);
 
@@ -68,7 +67,7 @@ public class InformationScore extends DefaultInformation {
         setText(text);
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
-        setXText((PonkanRun.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
+        setXText((this.game.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
         setYText(((getHeight() + getTextBoxHeight()) / 2));
     }
 }
