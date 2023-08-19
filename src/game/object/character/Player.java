@@ -1,6 +1,7 @@
-package game.object;
+package game.object.character;
 
 import game.PonkanRun;
+import game.object.Object2D;
 import game.utils.LibraryUtils;
 
 public class Player extends Object2D {

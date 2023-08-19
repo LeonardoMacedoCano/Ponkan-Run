@@ -1,11 +1,16 @@
 package game.stage;
 
 import game.PonkanRun;
-import game.object.*;
+import game.object.environment.EnvironmentBackground;
+import game.object.information.*;
+import game.object.obstacle.DefaultObstacle;
+import game.object.obstacle.ObstacleCup;
+import game.object.obstacle.ObstacleKnife;
+import game.object.obstacle.ObstacleTeaCup;
 import game.utils.*;
 
 import javax.swing.Timer;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,7 +19,7 @@ import java.util.List;
 public class Stage implements Animation {
     private final PonkanRun game;
     private static Timer timer;
-    public final StageBackground background;
+    public final EnvironmentBackground background;
     private final List<DefaultInformation> listInformation;
     private final List<DefaultObstacle> listObstacle;
     private String currentStageType;
@@ -38,7 +43,7 @@ public class Stage implements Animation {
         this.game = game;
 
         timer = new Timer(2000, new Listener());
-        background = new StageBackground(game);
+        background = new EnvironmentBackground(game);
         listInformation = new ArrayList<>();
         listObstacle = new ArrayList<>();
 
@@ -102,7 +107,7 @@ public class Stage implements Animation {
     }
 
     private void updateListObstacle() {
-        DefaultObstacle obstacle;
+        List<DefaultObstacle> obstaclesToRemove = new ArrayList<>();
 
         if (getMillisUntilNextObstacle() > 0) {
             setMillisUntilNextObstacle(getMillisUntilNextObstacle() - 1);
@@ -111,16 +116,16 @@ public class Stage implements Animation {
             setRandomMillisUntilNextObstacle();
         }
 
-        for (int i = 0; i < listObstacle.size(); i++) {
-            obstacle = listObstacle.get(i);
-
-            if ((obstacle.getX() +  obstacle.getWidth() > 0)) {
-                obstacle.setX(obstacle.getX() - getCurrentVelocity());
+        for (DefaultObstacle defaultObstacle : listObstacle) {
+            if ((defaultObstacle.getX() + defaultObstacle.getWidth() > 0)) {
+                defaultObstacle.setX(defaultObstacle.getX() - getCurrentVelocity());
             } else {
                 setCurrentScore(getCurrentScore() + 1);
-                listObstacle.remove(i);
+                obstaclesToRemove.add(defaultObstacle);
             }
         }
+
+        listObstacle.removeAll(obstaclesToRemove);
     }
 
     private void addObstacle() {
@@ -155,13 +160,11 @@ public class Stage implements Animation {
     }
 
     private void checkCollisionInListObstacle() {
-        DefaultObstacle obstacle;
+        List<DefaultObstacle> obstaclesToRemove = new ArrayList<>();
 
-        for (int i = 0; i < listObstacle.size(); i++) {
-            obstacle = listObstacle.get(i);
-
-            if (LibraryUtils.checkCollisionBetweenObjects2D(this.game.player, obstacle)) {
-                listObstacle.remove(i);
+        for (DefaultObstacle defaultObstacle : listObstacle) {
+            if (LibraryUtils.checkCollisionBetweenObjects2D(this.game.player, defaultObstacle)) {
+                obstaclesToRemove.add(defaultObstacle);
                 this.game.player.setCurrentTotalLives(this.game.player.getCurrentTotalLives() - 1);
 
                 if (this.game.player.getCurrentTotalLives() <= 0) {
@@ -169,6 +172,8 @@ public class Stage implements Animation {
                 }
             }
         }
+
+        listObstacle.removeAll(obstaclesToRemove);
     }
 
     private void setRandomMillisUntilNextObstacle() {

@@ -4,7 +4,8 @@ import game.PonkanRun;
 import game.utils.Animation;
 
 import javax.swing.ImageIcon;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public abstract class Object2D implements Animation {
     private int x;

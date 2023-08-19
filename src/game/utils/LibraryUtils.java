@@ -2,7 +2,7 @@ package game.utils;
 
 import game.object.Object2D;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 public class LibraryUtils {

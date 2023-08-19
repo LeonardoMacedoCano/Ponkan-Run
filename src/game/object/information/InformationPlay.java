@@ -1,4 +1,4 @@
-package game.object;
+package game.object.information;
 
 import game.PonkanRun;
 import game.utils.LibraryUtils;

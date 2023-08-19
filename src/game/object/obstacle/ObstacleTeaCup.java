@@ -1,11 +1,11 @@
-package game.object;
+package game.object.obstacle;
 
 import game.PonkanRun;
 import game.utils.LibraryUtils;
 import game.utils.ObstacleType;
 
-public class ObstacleKnife extends DefaultObstacle{
-    public ObstacleKnife(PonkanRun game) {
+public class ObstacleTeaCup extends DefaultObstacle {
+    public ObstacleTeaCup(PonkanRun game) {
         super(game);
     }
 
@@ -22,17 +22,17 @@ public class ObstacleKnife extends DefaultObstacle{
     @Override
     protected void setStartPosition() {
         setX(this.game.DEFAULT_WIDTH);
-        setY(315);
+        setY(this.game.currentStage.background.FLOOR_HEIGHT - getHeight());
     }
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/knife.png", LibraryUtils.PATH_IMG_OBSTACLE);
+        return String.format("%s/teaCup.png", LibraryUtils.PATH_IMG_OBSTACLE);
     }
 
     @Override
     protected void beforeCreateObject() {
-        setType(ObstacleType.KNIFE);
+        setType(ObstacleType.TEA_CUP);
     }
 
     @Override

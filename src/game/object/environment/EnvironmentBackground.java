@@ -1,14 +1,15 @@
-package game.object;
+package game.object.environment;
 
 import game.PonkanRun;
+import game.object.Object2D;
 import game.utils.LibraryUtils;
 
 import java.util.Objects;
 
-public class StageBackground extends Object2D {
+public class EnvironmentBackground extends Object2D {
     public final int FLOOR_HEIGHT = 665;
 
-    public StageBackground(PonkanRun game) {
+    public EnvironmentBackground(PonkanRun game) {
         super(game);
     }
 

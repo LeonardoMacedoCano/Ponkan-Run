@@ -1,6 +1,7 @@
-package game.object;
+package game.object.information;
 
 import game.PonkanRun;
+import game.object.Object2D;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

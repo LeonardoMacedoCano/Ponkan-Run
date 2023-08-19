@@ -1,6 +1,6 @@
 package game;
 
-import game.object.Player;
+import game.object.character.Player;
 import game.stage.Stage;
 import game.utils.Animation;
 import game.utils.KeyboardAdapter;
@@ -9,7 +9,14 @@ import game.utils.CustomTimer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.DisplayMode;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
 public class PonkanRun extends JFrame implements Animation {
@@ -30,15 +37,15 @@ public class PonkanRun extends JFrame implements Animation {
         String IMAGE_ICON = String.format("%s/icon.png", LibraryUtils.PATH_IMG_PLAYER);
         ImageIcon icon = new ImageIcon(IMAGE_ICON);
 
+        setActive(true);
         setTitle(TITLE);
         setIconImage(icon.getImage());
-        setActive(true);
         startFullScreen();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.keyboardAdapter = new KeyboardAdapter(this);
         this.currentStage = new Stage(this);
         this.player = new Player(this);
-        this.customTimer = new CustomTimer(this, 14);
+        this.customTimer = new CustomTimer(this, 15);
     }
 
     public static void main(String[] args) {
@@ -98,7 +105,10 @@ public class PonkanRun extends JFrame implements Animation {
             else System.out.println("Contents Lost");
 
             Toolkit.getDefaultToolkit().sync();
-        } catch(Exception e){e.printStackTrace();}
+        } catch(Exception e){
+            System.out.println("An error occurred while rendering");
+            System.exit(0);
+        }
     }
 
     public void resetTime() {
