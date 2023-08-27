@@ -1,12 +1,9 @@
 package game.stage;
 
 import game.PonkanRun;
-import game.object.environment.EnvironmentBackground;
+import game.object.environment.*;
 import game.object.information.*;
-import game.object.obstacle.DefaultObstacle;
-import game.object.obstacle.ObstacleCup;
-import game.object.obstacle.ObstacleKnife;
-import game.object.obstacle.ObstacleTeaCup;
+import game.object.obstacle.*;
 import game.utils.*;
 
 import javax.swing.Timer;
@@ -22,7 +19,7 @@ public class Stage implements Animation {
     public final EnvironmentBackground background;
     private final List<DefaultInformation> listInformation;
     private final List<DefaultObstacle> listObstacle;
-    private String currentStageType;
+    private LibraryUtils.StageType currentStageType;
     private int currentScore;
     private int currentVelocity;
     private int millisUntilNextObstacle;
@@ -105,8 +102,8 @@ public class Stage implements Animation {
         listInformation.clear();
 
         switch (getCurrentStageType()) {
-            case LibraryUtils.StageType.PLAY -> listInformation.add(new InformationPlay(game));
-            case LibraryUtils.StageType.LOST -> listInformation.add(new InformationLost(game));
+            case PLAY -> listInformation.add(new InformationPlay(game));
+            case LOST -> listInformation.add(new InformationLost(game));
             default -> {
                 listInformation.add(new InformationLives(game));
                 listInformation.add(new InformationScore(game));
@@ -137,12 +134,12 @@ public class Stage implements Animation {
     }
 
     private void addObstacle() {
-        int randomObstacleType = (int)Math.floor(ObstacleType.getTotalObstacleType() * Math.random());
+        int randomObstacleType = (int)Math.floor(LibraryUtils.ObstacleType.getTotalObstacleType() * Math.random());
 
-        switch (randomObstacleType) {
-            case ObstacleType.CUP -> listObstacle.add(new ObstacleCup(game));
-            case ObstacleType.TEA_CUP -> listObstacle.add(new ObstacleTeaCup(game));
-            case ObstacleType.KNIFE -> listObstacle.add(new ObstacleKnife(game));
+        switch (LibraryUtils.ObstacleType.values()[randomObstacleType]) {
+            case CUP -> listObstacle.add(new ObstacleCup(game));
+            case TEA_CUP -> listObstacle.add(new ObstacleTeaCup(game));
+            case KNIFE -> listObstacle.add(new ObstacleKnife(game));
         }
     }
 
@@ -188,11 +185,11 @@ public class Stage implements Animation {
         setMillisUntilNextObstacle(getMinDistBetweenObstacles() + (int)Math.floor(21 * Math.random()));
     }
 
-    private void setCurrentStageType(String currentStageType) {
+    private void setCurrentStageType(LibraryUtils.StageType currentStageType) {
         this.currentStageType = currentStageType;
     }
 
-    public String getCurrentStageType() {
+    public LibraryUtils.StageType getCurrentStageType() {
         return currentStageType;
     }
 

@@ -2,7 +2,6 @@ package game.object.obstacle;
 
 import game.PonkanRun;
 import game.utils.LibraryUtils;
-import game.utils.ObstacleType;
 
 public class ObstacleKnife extends DefaultObstacle {
     public ObstacleKnife(PonkanRun game) {
@@ -32,7 +31,7 @@ public class ObstacleKnife extends DefaultObstacle {
 
     @Override
     protected void beforeCreateObject() {
-        setType(ObstacleType.KNIFE);
+
     }
 
     @Override

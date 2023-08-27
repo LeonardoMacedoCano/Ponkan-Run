@@ -2,7 +2,6 @@ package game.object.obstacle;
 
 import game.PonkanRun;
 import game.utils.LibraryUtils;
-import game.utils.ObstacleType;
 
 public class ObstacleTeaCup extends DefaultObstacle {
     public ObstacleTeaCup(PonkanRun game) {
@@ -32,7 +31,7 @@ public class ObstacleTeaCup extends DefaultObstacle {
 
     @Override
     protected void beforeCreateObject() {
-        setType(ObstacleType.TEA_CUP);
+
     }
 
     @Override
