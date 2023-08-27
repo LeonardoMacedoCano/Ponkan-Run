@@ -60,7 +60,10 @@ public class PonkanRun extends JFrame implements Animation {
     @Override
     public void update() {
         this.currentStage.update();
-        this.player.update();
+
+        if (!(this.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PAUSED))) {
+            this.player.update();
+        }
     }
 
     public void paint(Graphics2D graphics2D) {

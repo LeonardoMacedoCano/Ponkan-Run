@@ -89,6 +89,14 @@ public class Stage implements Animation {
         setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
     }
 
+    public void pause() {
+        setCurrentStageType(LibraryUtils.StageType.PAUSED);
+    }
+
+    public void unpause() {
+        setCurrentStageType(LibraryUtils.StageType.PLAYING);
+    }
+
     public void prepareStageLost() {
         setCurrentStageType(LibraryUtils.StageType.LOST);
     }

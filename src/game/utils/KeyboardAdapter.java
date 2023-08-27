@@ -24,6 +24,13 @@ public class KeyboardAdapter extends KeyAdapter {
                 if (this.game.player.getRemainingJumps() > 0) this.game.player.jump();
             }
             case KeyEvent.VK_DOWN -> this.game.player.roll();
+            case KeyEvent.VK_P, KeyEvent.VK_PAUSE-> {
+                if (this.game.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
+                    this.game.currentStage.pause();
+                } else if (this.game.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PAUSED)) {
+                    this.game.currentStage.unpause();
+                }
+            }
             default -> throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
         }
     }
