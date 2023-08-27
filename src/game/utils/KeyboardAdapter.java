@@ -16,8 +16,9 @@ public class KeyboardAdapter extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER -> {
-                if (this.game.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PLAY)) {
-                    this.game.currentStage.prepareStagePlaying();
+                switch (this.game.currentStage.getCurrentStageType()) {
+                    case PLAY -> this.game.currentStage.prepareStagePlaying();
+                    case LOST -> this.game.currentStage.prepareStagePlay();
                 }
             }
             case KeyEvent.VK_UP -> {
@@ -25,13 +26,11 @@ public class KeyboardAdapter extends KeyAdapter {
             }
             case KeyEvent.VK_DOWN -> this.game.player.roll();
             case KeyEvent.VK_P, KeyEvent.VK_PAUSE-> {
-                if (this.game.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
-                    this.game.currentStage.pause();
-                } else if (this.game.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PAUSED)) {
-                    this.game.currentStage.unpause();
+                switch (this.game.currentStage.getCurrentStageType()) {
+                    case PLAYING -> this.game.currentStage.pause();
+                    case PAUSED -> this.game.currentStage.unpause();
                 }
             }
-            default -> throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
         }
     }
 

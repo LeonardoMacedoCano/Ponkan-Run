@@ -70,7 +70,7 @@ public class Stage implements Animation {
         prepareStagePlay();
     }
 
-    private void prepareStagePlay() {
+    public void prepareStagePlay() {
         setCurrentStageType(LibraryUtils.StageType.PLAY);
         setCurrentScore(0);
         setCurrentVelocity(0);
