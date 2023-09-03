@@ -3,12 +3,7 @@ package game.object.information;
 import game.PonkanRun;
 import game.object.Object2D;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineBreakMeasurer;
-import java.awt.font.TextLayout;
-import java.text.AttributedCharacterIterator;
+import java.awt.*;
 import java.text.AttributedString;
 
 public abstract class DefaultInformation extends Object2D {
@@ -24,14 +19,6 @@ public abstract class DefaultInformation extends Object2D {
     }
 
     protected abstract void createTextBox(Graphics2D graphics2D);
-
-    protected static int getTextBoxWidth(Graphics2D graphics2D, AttributedString attributedString) {
-        AttributedCharacterIterator characterIterator = attributedString.getIterator();
-        FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
-        LineBreakMeasurer lbm = new LineBreakMeasurer(characterIterator, fontRenderContext);
-        TextLayout textLayout = lbm.nextLayout(Integer.MAX_VALUE);
-        return (int) textLayout.getBounds().getWidth();
-    }
 
     public void paintTextBox(Graphics2D graphics2D) {
         createTextBox(graphics2D);

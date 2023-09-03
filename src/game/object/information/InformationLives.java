@@ -12,7 +12,7 @@ public class InformationLives extends DefaultInformation {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/panelLives%d.png", LibraryUtils.PATH_IMG_INFORMATION, this.game.getPlayer().getCurrentTotalLives());
+        return String.format("%s/panelLives%d.png", LibraryUtils.PATH_IMG_INFORMATION, getGame().getPlayer().getCurrentTotalLives());
     }
 
     @Override
@@ -27,8 +27,8 @@ public class InformationLives extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX(0);
-        setY(10);
+        setX(getGame().getScreenEdge().left);
+        setY(getGame().getScreenEdge().top + 10);
     }
 
     @Override

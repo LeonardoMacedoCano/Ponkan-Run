@@ -48,7 +48,7 @@ public class Player extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        if (LibraryUtils.StageType.PLAY.equals(this.game.getCurrentStage().getCurrentStageType())) {
+        if (LibraryUtils.StageType.PLAY.equals(getGame().getCurrentStage().getCurrentStageType())) {
             return String.format("%s.png", getPlayerFrame(LibraryUtils.PATH_IMG_PLAYER_STOPPED, getFrameBase(), LAST_FRAME_STOPPED));
         } else {
             if (isJumping() && getRemainingJumps() == 1) {
@@ -81,7 +81,7 @@ public class Player extends Object2D {
     }
 
     private void updateVelocity() {
-        setVelocity(getVelocity() + this.game.getCurrentStage().GRAVITATIONAL_FORCE);
+        setVelocity(getVelocity() + getGame().getCurrentStage().GRAVITATIONAL_FORCE);
     }
 
     private void updateYCoordinate() {
@@ -100,7 +100,7 @@ public class Player extends Object2D {
     }
 
     private boolean isJumping() {
-        return ((getY() + getVelocity()) < (this.game.getCurrentStage().getGroundPosition() - getHeight()));
+        return ((getY() + getVelocity()) < (getGame().getCurrentStage().getGroundPosition() - getHeight()));
     }
 
     public void roll() {
@@ -112,11 +112,11 @@ public class Player extends Object2D {
     }
 
     private void setPlayerOnTheFloor() {
-        setY(this.game.getCurrentStage().getGroundPosition() - getHeight());
+        setY(getGame().getCurrentStage().getGroundPosition() - getHeight());
     }
 
     private int getLastFrame() {
-        if (LibraryUtils.StageType.PLAY.equals(this.game.getCurrentStage().getCurrentStageType())) {
+        if (LibraryUtils.StageType.PLAY.equals(getGame().getCurrentStage().getCurrentStageType())) {
             return LAST_FRAME_STOPPED;
         } else if (isJumping() && getRemainingJumps() == 1){
             return LAST_FRAME_JUMPING;

@@ -21,8 +21,8 @@ public class EnvironmentFloor extends Object2D {
 
     @Override
     protected void setStartPosition() {
-        setX(game.getScreenEdge().left);
-        setY(game.getScreenHeight() - getHeight());
+        setX(getGame().getScreenEdge().left);
+        setY(getGame().getScreenHeight() - getHeight());
     }
 
     @Override

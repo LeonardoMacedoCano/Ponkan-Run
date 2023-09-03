@@ -20,8 +20,8 @@ public class ObstacleCup extends DefaultObstacle {
 
     @Override
     protected void setStartPosition() {
-        setX(this.game.getScreenWidth());
-        setY(this.game.getCurrentStage().getGroundPosition() - getHeight());
+        setX(getGame().getScreenWidth());
+        setY(getGame().getCurrentStage().getGroundPosition() - getHeight());
     }
 
     @Override

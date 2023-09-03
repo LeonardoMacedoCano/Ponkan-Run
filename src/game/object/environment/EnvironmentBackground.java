@@ -21,7 +21,7 @@ public class EnvironmentBackground extends Object2D {
     @Override
     public void updateFrame() {
         int LAST_FRAME = 34;
-        if ((Objects.equals(this.game.getCurrentStage().getCurrentStageType(), LibraryUtils.StageType.PLAYING)) && (getFrame() < LAST_FRAME)) {
+        if ((Objects.equals(getGame().getCurrentStage().getCurrentStageType(), LibraryUtils.StageType.PLAYING)) && (getFrame() < LAST_FRAME)) {
             setFrame(getFrame() +1);
         } else {
             setFrame(1);
@@ -30,8 +30,8 @@ public class EnvironmentBackground extends Object2D {
 
     @Override
     protected void setStartPosition() {
-        setX(game.getScreenEdge().left);
-        setY(game.getScreenEdge().top);
+        setX(getGame().getScreenEdge().left);
+        setY(getGame().getScreenEdge().top);
     }
 
     @Override

@@ -28,8 +28,8 @@ public class InformationPlay extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((this.game.getScreenWidth() - getWidth()) / 2);
-        setY((this.game.getScreenHeight() - getHeight()) / 2);
+        setX((getGame().getScreenWidth() - getWidth()) / 2);
+        setY((getGame().getScreenHeight() - getHeight()) / 2);
     }
 
     @Override

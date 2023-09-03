@@ -200,7 +200,7 @@ public class Stage implements Animation {
     }
 
     private void setTimer(Timer timer) {
-        this.timer = timer;
+        Stage.timer = timer;
     }
 
     private static Timer getTimer() {

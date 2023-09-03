@@ -6,29 +6,29 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyboardAdapter extends KeyAdapter {
-    private final PonkanRun game;
+    private PonkanRun game;
 
     public KeyboardAdapter(PonkanRun game) {
-        this.game = game;
+        setGame(game);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER -> {
-                switch (this.game.getCurrentStage().getCurrentStageType()) {
-                    case PLAY -> this.game.getCurrentStage().prepareStagePlaying();
-                    case LOST -> this.game.getCurrentStage().prepareStagePlay();
+                switch (getGame().getCurrentStage().getCurrentStageType()) {
+                    case PLAY -> getGame().getCurrentStage().prepareStagePlaying();
+                    case LOST -> getGame().getCurrentStage().prepareStagePlay();
                 }
             }
             case KeyEvent.VK_UP -> {
-                if (this.game.getPlayer().getRemainingJumps() > 0) this.game.getPlayer().jump();
+                if (getGame().getPlayer().getRemainingJumps() > 0) getGame().getPlayer().jump();
             }
-            case KeyEvent.VK_DOWN -> this.game.getPlayer().roll();
+            case KeyEvent.VK_DOWN -> getGame().getPlayer().roll();
             case KeyEvent.VK_P, KeyEvent.VK_PAUSE-> {
-                switch (this.game.getCurrentStage().getCurrentStageType()) {
-                    case PLAYING -> this.game.getCurrentStage().pause();
-                    case PAUSED -> this.game.getCurrentStage().unpause();
+                switch (getGame().getCurrentStage().getCurrentStageType()) {
+                    case PLAYING -> getGame().getCurrentStage().pause();
+                    case PAUSED -> getGame().getCurrentStage().unpause();
                 }
             }
         }
@@ -36,6 +36,14 @@ public class KeyboardAdapter extends KeyAdapter {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) this.game.getPlayer().getUp();
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) getGame().getPlayer().getUp();
+    }
+
+    private void setGame(PonkanRun game) {
+        this.game = game;
+    }
+
+    private PonkanRun getGame() {
+        return game;
     }
 }

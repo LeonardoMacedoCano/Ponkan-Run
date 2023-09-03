@@ -35,8 +35,8 @@ public class InformationScore extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((this.game.getScreenWidth() - getWidth()) / 2);
-        setY(0);
+        setX((getGame().getScreenWidth() - getWidth()) / 2);
+        setY(getGame().getScreenEdge().top);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class InformationScore extends DefaultInformation {
         Font font;
 
         font = new Font("TimesRoman", Font.PLAIN, 50);
-        text = new AttributedString(String.format("%03d", this.game.getCurrentStage().getCurrentScore()));
+        text = new AttributedString(String.format("%03d", getGame().getCurrentStage().getCurrentScore()));
         text.addAttribute(TextAttribute.FONT, font);
         text.addAttribute(TextAttribute.FOREGROUND, Color.white);
 
@@ -67,7 +67,7 @@ public class InformationScore extends DefaultInformation {
         setText(text);
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
-        setXText((this.game.getScreenWidth() - getTextBoxWidth()) / 2);
-        setYText(((getHeight() + getTextBoxHeight()) / 2));
+        setXText((getGame().getScreenWidth() - getTextBoxWidth()) / 2);
+        setYText(((getHeight() + getTextBoxHeight()) / 2) + getY());
     }
 }

@@ -14,24 +14,25 @@ public abstract class Object2D implements Animation {
     private int width;
     private Image image;
     private int frame;
-    protected PonkanRun game;
+    private PonkanRun game;
 
     public Object2D(PonkanRun game) {
-        this.game = game;
-
         beforeCreateObject();
+
+        setGame(game);
         setFrame(1);
         setImage();
         setHeight();
         setWidth();
         setStartPosition();
+
         afterCreateObject();
     }
 
     public abstract void update();
 
     public void paint(Graphics2D graphics2D){
-        graphics2D.drawImage(this.getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.game);
+        graphics2D.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), getGame());
     }
 
     public abstract void updateFrame();
@@ -44,21 +45,20 @@ public abstract class Object2D implements Animation {
 
     protected abstract void afterCreateObject();
 
-    protected void setImage() {
-        ImageIcon image = new ImageIcon(getImageFrame());
-        this.image = image.getImage();
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public Image getImage() {
-        return image;
+    public int getX() {
+        return x;
     }
 
-    protected void setWidth() {
-        this.width = this.image.getWidth(null);
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public int getWidth() {
-        return width;
+    public int getY() {
+        return y;
     }
 
     protected void setHeight() {
@@ -69,20 +69,21 @@ public abstract class Object2D implements Animation {
         return height;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    protected void setWidth() {
+        this.width = this.image.getWidth(null);
     }
 
-    public int getX() {
-        return x;
+    public int getWidth() {
+        return width;
     }
 
-    protected void setY(int y) {
-        this.y = y;
+    protected void setImage() {
+        ImageIcon image = new ImageIcon(getImageFrame());
+        this.image = image.getImage();
     }
 
-    public int getY() {
-        return y;
+    public Image getImage() {
+        return image;
     }
 
     protected void setFrame(int frame) {
@@ -91,5 +92,13 @@ public abstract class Object2D implements Animation {
 
     protected int getFrame() {
         return frame;
+    }
+
+    public void setGame(PonkanRun game) {
+        this.game = game;
+    }
+
+    public PonkanRun getGame() {
+        return game;
     }
 }
