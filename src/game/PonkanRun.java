@@ -90,7 +90,7 @@ public class PonkanRun extends JFrame implements Animation {
     private void loop() {
         resetTime();
 
-        while (getCurrentStage().isActive()) {
+        while (getCurrentStage().getActive()) {
             update();
             render();
             getCustomTimer().normalize();

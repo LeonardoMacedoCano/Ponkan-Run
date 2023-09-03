@@ -14,48 +14,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Stage implements Animation {
-    private final PonkanRun game;
+    private PonkanRun game;
     private static Timer timer;
-    public final EnvironmentBackground background;
-    private final List<DefaultInformation> listInformation;
-    private final List<DefaultObstacle> listObstacle;
+    private EnvironmentBackground environmentBackground;
+    private EnvironmentFloor environmentFloor;
+    private List<DefaultInformation> listInformation;
+    private List<DefaultObstacle> listObstacle;
     private LibraryUtils.StageType currentStageType;
     private int currentScore;
     private int currentVelocity;
     private int millisUntilNextObstacle;
-    private boolean active;
     private int minDistBetweenObstacles;
+    private boolean active;
     public final int GRAVITATIONAL_FORCE = 2;
     public final int INITIAL_VELOCITY = 8;
     public final int INITIAL_MIN_DIST_OBSTACLES = 70;
 
     public static class Listener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            Stage.timer.stop();
+            Stage.getTimer().stop();
             System.gc();
         }
     }
 
     public Stage(PonkanRun game) {
-        this.game = game;
-
-        timer = new Timer(2000, new Listener());
-        background = new EnvironmentBackground(game);
-        listInformation = new ArrayList<>();
-        listObstacle = new ArrayList<>();
-
+        setGame(game);
+        setTimer(new Timer(2000, new Listener()));
+        setEnvironmentBackground(new EnvironmentBackground(getGame()));
+        setEnvironmentFloor(new EnvironmentFloor(getGame()));
+        setListInformation(new ArrayList<>());
+        setListObstacle(new ArrayList<>());
         setActive(false);
     }
 
     public void paint(Graphics2D graphics2D) {
-        background.paint(graphics2D);
+        getEnvironmentBackground().paint(graphics2D);
+        getEnvironmentFloor().paint(graphics2D);
         paintListInformation(graphics2D);
         paintListObstacle(graphics2D);
     }
 
     @Override
     public void update() {
-        background.update();
+        getEnvironmentBackground().update();
+        getEnvironmentFloor().update();
         updateListInformation();
 
         if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
@@ -66,7 +68,7 @@ public class Stage implements Animation {
 
     public void start() {
         setActive(true);
-        timer.start();
+        getTimer().start();
         prepareStagePlay();
     }
 
@@ -76,8 +78,8 @@ public class Stage implements Animation {
         setCurrentVelocity(0);
         setMillisUntilNextObstacle(0);
         setMinDistBetweenObstacles(0);
-        this.game.getPlayer().prepareStagePlay();
-        listObstacle.clear();
+        getGame().getPlayer().prepareStagePlay();
+        getListObstacle().clear();
     }
 
     public void prepareStagePlaying() {
@@ -99,14 +101,14 @@ public class Stage implements Animation {
     }
 
     private void updateListInformation() {
-        listInformation.clear();
+        getListInformation().clear();
 
         switch (getCurrentStageType()) {
-            case PLAY -> listInformation.add(new InformationPlay(game));
-            case LOST -> listInformation.add(new InformationLost(game));
+            case PLAY -> getListInformation().add(new InformationPlay(getGame()));
+            case LOST -> getListInformation().add(new InformationLost(getGame()));
             default -> {
-                listInformation.add(new InformationLives(game));
-                listInformation.add(new InformationScore(game));
+                getListInformation().add(new InformationLives(getGame()));
+                getListInformation().add(new InformationScore(getGame()));
             }
         }
     }
@@ -121,7 +123,7 @@ public class Stage implements Animation {
             setRandomMillisUntilNextObstacle();
         }
 
-        for (DefaultObstacle defaultObstacle : listObstacle) {
+        for (DefaultObstacle defaultObstacle : getListObstacle()) {
             if ((defaultObstacle.getX() + defaultObstacle.getWidth() > 0)) {
                 defaultObstacle.setX(defaultObstacle.getX() - getCurrentVelocity());
             } else {
@@ -130,25 +132,25 @@ public class Stage implements Animation {
             }
         }
 
-        listObstacle.removeAll(obstaclesToRemove);
+        getListObstacle().removeAll(obstaclesToRemove);
     }
 
     private void addObstacle() {
         int randomObstacleType = (int)Math.floor(LibraryUtils.ObstacleType.getTotalObstacleType() * Math.random());
 
         switch (LibraryUtils.ObstacleType.values()[randomObstacleType]) {
-            case CUP -> listObstacle.add(new ObstacleCup(game));
-            case TEA_CUP -> listObstacle.add(new ObstacleTeaCup(game));
-            case KNIFE -> listObstacle.add(new ObstacleKnife(game));
+            case CUP -> getListObstacle().add(new ObstacleCup(getGame()));
+            case TEA_CUP -> getListObstacle().add(new ObstacleTeaCup(getGame()));
+            case KNIFE -> getListObstacle().add(new ObstacleKnife(getGame()));
         }
     }
 
     private void paintListInformation(Graphics2D graphics2D) {
         DefaultInformation information;
 
-        for (DefaultInformation defaultInformation : listInformation) {
+        for (DefaultInformation defaultInformation : getListInformation()) {
             information = defaultInformation;
-            graphics2D.drawImage(information.getImage(), information.getX(), information.getY(), information.getWidth(), information.getHeight(), this.game);
+            graphics2D.drawImage(information.getImage(), information.getX(), information.getY(), information.getWidth(), information.getHeight(), getGame());
 
             if (information.isUsedTextBox()) {
                 information.paintTextBox(graphics2D);
@@ -158,31 +160,79 @@ public class Stage implements Animation {
     private void paintListObstacle(Graphics2D graphics2D) {
         DefaultObstacle obstacle;
 
-        for (DefaultObstacle defaultObstacle : listObstacle) {
+        for (DefaultObstacle defaultObstacle : getListObstacle()) {
             obstacle = defaultObstacle;
-            graphics2D.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), this.game);
+            graphics2D.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), getGame());
         }
     }
 
     private void checkCollisionInListObstacle() {
         List<DefaultObstacle> obstaclesToRemove = new ArrayList<>();
 
-        for (DefaultObstacle defaultObstacle : listObstacle) {
-            if (LibraryUtils.checkCollisionBetweenObjects2D(this.game.getPlayer(), defaultObstacle)) {
+        for (DefaultObstacle defaultObstacle : getListObstacle()) {
+            if (LibraryUtils.checkCollisionBetweenObjects2D(getGame().getPlayer(), defaultObstacle)) {
                 obstaclesToRemove.add(defaultObstacle);
-                this.game.getPlayer().setCurrentTotalLives(this.game.getPlayer().getCurrentTotalLives() - 1);
+                getGame().getPlayer().setCurrentTotalLives(getGame().getPlayer().getCurrentTotalLives() - 1);
 
-                if (this.game.getPlayer().getCurrentTotalLives() <= 0) {
+                if (getGame().getPlayer().getCurrentTotalLives() <= 0) {
                     prepareStageLost();
                 }
             }
         }
 
-        listObstacle.removeAll(obstaclesToRemove);
+        getListObstacle().removeAll(obstaclesToRemove);
     }
 
     private void setRandomMillisUntilNextObstacle() {
         setMillisUntilNextObstacle(getMinDistBetweenObstacles() + (int)Math.floor(21 * Math.random()));
+    }
+
+    private void setGame(PonkanRun game) {
+        this.game = game;
+    }
+
+    private PonkanRun getGame() {
+        return game;
+    }
+
+    private void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    private static Timer getTimer() {
+        return timer;
+    }
+
+    private void setEnvironmentBackground(EnvironmentBackground environmentBackground) {
+        this.environmentBackground = environmentBackground;
+    }
+
+    public EnvironmentBackground getEnvironmentBackground() {
+        return environmentBackground;
+    }
+
+    private void setEnvironmentFloor(EnvironmentFloor environmentFloor) {
+        this.environmentFloor = environmentFloor;
+    }
+
+    private EnvironmentFloor getEnvironmentFloor() {
+        return environmentFloor;
+    }
+
+    private void setListInformation(List<DefaultInformation> listInformation) {
+        this.listInformation = listInformation;
+    }
+
+    private List<DefaultInformation> getListInformation() {
+        return listInformation;
+    }
+
+    private void setListObstacle(List<DefaultObstacle> listObstacle) {
+        this.listObstacle = listObstacle;
+    }
+
+    private List<DefaultObstacle> getListObstacle() {
+        return listObstacle;
     }
 
     private void setCurrentStageType(LibraryUtils.StageType currentStageType) {
@@ -201,6 +251,14 @@ public class Stage implements Animation {
         return currentScore;
     }
 
+    private void setCurrentVelocity(int currentVelocity) {
+        this.currentVelocity = currentVelocity;
+    }
+
+    private int getCurrentVelocity() {
+        return currentVelocity;
+    }
+
     private void setMillisUntilNextObstacle(int millisUntilNextObstacle) {
         this.millisUntilNextObstacle = millisUntilNextObstacle;
     }
@@ -217,19 +275,11 @@ public class Stage implements Animation {
         return minDistBetweenObstacles;
     }
 
-    private void setCurrentVelocity(int currentVelocity) {
-        this.currentVelocity = currentVelocity;
-    }
-
-    private int getCurrentVelocity() {
-        return currentVelocity;
-    }
-
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
-    protected void setActive (boolean active) {
+    private void setActive (boolean active) {
         this.active = active;
     }
 }
