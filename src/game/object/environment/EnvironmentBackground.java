@@ -7,7 +7,6 @@ import game.utils.LibraryUtils;
 import java.util.Objects;
 
 public class EnvironmentBackground extends Object2D {
-    public final int FLOOR_HEIGHT = 665;
 
     public EnvironmentBackground(PonkanRun game) {
         super(game);

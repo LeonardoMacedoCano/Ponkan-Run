@@ -100,7 +100,7 @@ public class Player extends Object2D {
     }
 
     private boolean isJumping() {
-        return ((getY() + getVelocity()) < (this.game.getCurrentStage().getEnvironmentBackground().FLOOR_HEIGHT - getHeight()));
+        return ((getY() + getVelocity()) < (this.game.getCurrentStage().getGroundPosition() - getHeight()));
     }
 
     public void roll() {
@@ -112,7 +112,7 @@ public class Player extends Object2D {
     }
 
     private void setPlayerOnTheFloor() {
-        setY(this.game.getCurrentStage().getEnvironmentBackground().FLOOR_HEIGHT - getHeight());
+        setY(this.game.getCurrentStage().getGroundPosition() - getHeight());
     }
 
     private int getLastFrame() {

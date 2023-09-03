@@ -187,6 +187,10 @@ public class Stage implements Animation {
         setMillisUntilNextObstacle(getMinDistBetweenObstacles() + (int)Math.floor(21 * Math.random()));
     }
 
+    public int getGroundPosition() {
+        return getEnvironmentFloor().getY() + 10;
+    }
+
     private void setGame(PonkanRun game) {
         this.game = game;
     }
