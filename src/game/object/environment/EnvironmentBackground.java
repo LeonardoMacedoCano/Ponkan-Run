@@ -31,13 +31,13 @@ public class EnvironmentBackground extends Object2D {
 
     @Override
     protected void setStartPosition() {
-        setX(0);
-        setY(0);
+        setX(game.getScreenEdge().left);
+        setY(game.getScreenEdge().top);
     }
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_STAGE_BG, getFrame());
+        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_ENVIRONMENT_BG, getFrame());
     }
 
     @Override

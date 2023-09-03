@@ -27,11 +27,24 @@ public class PonkanRun extends JFrame implements Animation {
         String TITLE = "Ponkan Run";
         String IMAGE_ICON = String.format("%s/icon.png", LibraryUtils.PATH_IMG_PLAYER);
         ImageIcon icon = new ImageIcon(IMAGE_ICON);
+        int DEFAULT_HEIGHT = 728;
+        int DEFAULT_WIDTH = 1024;
+
+        setIgnoreRepaint(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setTitle(TITLE);
         setIconImage(icon.getImage());
-        startScreen();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setScreenEdge(getInsets());
+        setScreenWidth(getBounds().width + getScreenEdge().left + getScreenEdge().right);
+        setScreenHeight(getBounds().height + getScreenEdge().top + getScreenEdge().bottom);
+        setSize(getScreenWidth(), getScreenHeight());
+        setRenderStrategy();
+
         setKeyboardAdapter(new KeyboardAdapter(this));
         setCurrentStage(new Stage(this));
         setPlayer(new Player(this));
@@ -106,22 +119,6 @@ public class PonkanRun extends JFrame implements Animation {
 
     private void resetTime() {
         getCustomTimer().restart();
-    }
-
-    private void startScreen() {
-        int DEFAULT_HEIGHT = 728;
-        int DEFAULT_WIDTH = 1024;
-
-        setIgnoreRepaint(true);
-        setResizable(false);
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setScreenEdge(getInsets());
-        setScreenWidth(getBounds().width + getScreenEdge().left + getScreenEdge().right);
-        setScreenHeight(getBounds().height + getScreenEdge().top + getScreenEdge().bottom);
-        setSize(getScreenWidth(), getScreenHeight());
-        setRenderStrategy();
     }
 
     private void addKeyboardHandler() {
@@ -203,7 +200,7 @@ public class PonkanRun extends JFrame implements Animation {
         this.screenHeight = screenHeight;
     }
 
-    private Insets getScreenEdge() {
+    public Insets getScreenEdge() {
         return screenEdge;
     }
 
