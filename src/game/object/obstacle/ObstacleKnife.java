@@ -20,7 +20,7 @@ public class ObstacleKnife extends DefaultObstacle {
 
     @Override
     protected void setStartPosition() {
-        setX(this.game.DEFAULT_WIDTH);
+        setX(this.game.getScreenWidth());
         setY(315);
     }
 

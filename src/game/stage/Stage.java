@@ -76,7 +76,7 @@ public class Stage implements Animation {
         setCurrentVelocity(0);
         setMillisUntilNextObstacle(0);
         setMinDistBetweenObstacles(0);
-        this.game.player.prepareStagePlay();
+        this.game.getPlayer().prepareStagePlay();
         listObstacle.clear();
     }
 
@@ -168,11 +168,11 @@ public class Stage implements Animation {
         List<DefaultObstacle> obstaclesToRemove = new ArrayList<>();
 
         for (DefaultObstacle defaultObstacle : listObstacle) {
-            if (LibraryUtils.checkCollisionBetweenObjects2D(this.game.player, defaultObstacle)) {
+            if (LibraryUtils.checkCollisionBetweenObjects2D(this.game.getPlayer(), defaultObstacle)) {
                 obstaclesToRemove.add(defaultObstacle);
-                this.game.player.setCurrentTotalLives(this.game.player.getCurrentTotalLives() - 1);
+                this.game.getPlayer().setCurrentTotalLives(this.game.getPlayer().getCurrentTotalLives() - 1);
 
-                if (this.game.player.getCurrentTotalLives() <= 0) {
+                if (this.game.getPlayer().getCurrentTotalLives() <= 0) {
                     prepareStageLost();
                 }
             }

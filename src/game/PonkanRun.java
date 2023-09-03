@@ -9,49 +9,40 @@ import game.utils.CustomTimer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.DisplayMode;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class PonkanRun extends JFrame implements Animation {
-    private GraphicsDevice graphicsDevice;
-    private BufferStrategy bufferStrategy;
-    private final KeyboardAdapter keyboardAdapter;
-    private final CustomTimer customTimer;
-    public final Stage currentStage;
-    public Player player;
+    private BufferStrategy renderStrategy;
+    private KeyboardAdapter keyboardAdapter;
+    private CustomTimer customTimer;
+    private Stage currentStage;
+    private Player player;
     private boolean active;
     private int screenWidth;
     private int screenHeight;
-    public final int DEFAULT_HEIGHT = 728;
-    public final int DEFAULT_WIDTH = 1024;
+    private Insets screenEdge;
 
     public PonkanRun() {
         String TITLE = "Ponkan Run";
         String IMAGE_ICON = String.format("%s/icon.png", LibraryUtils.PATH_IMG_PLAYER);
         ImageIcon icon = new ImageIcon(IMAGE_ICON);
 
-        setActive(true);
         setTitle(TITLE);
         setIconImage(icon.getImage());
-        startFullScreen();
+        startScreen();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.keyboardAdapter = new KeyboardAdapter(this);
-        this.currentStage = new Stage(this);
-        this.player = new Player(this);
-        this.customTimer = new CustomTimer(this, 15);
+        setKeyboardAdapter(new KeyboardAdapter(this));
+        setCurrentStage(new Stage(this));
+        setPlayer(new Player(this));
+        setCustomTimer(new CustomTimer(this, 15));
+        setActive(true);
     }
 
     public static void main(String[] args) {
         PonkanRun ponkanRun = new PonkanRun();
 
-        while (ponkanRun.isActive()) {
+        while (ponkanRun.getActive()) {
             ponkanRun.startGame();
             ponkanRun.loop();
         }
@@ -59,52 +50,51 @@ public class PonkanRun extends JFrame implements Animation {
 
     @Override
     public void update() {
-        this.currentStage.update();
+        getCurrentStage().update();
 
-        if (!(this.currentStage.getCurrentStageType().equals(LibraryUtils.StageType.PAUSED))) {
-            this.player.update();
+        if (!(getCurrentStage().getCurrentStageType().equals(LibraryUtils.StageType.PAUSED))) {
+            getPlayer().update();
         }
     }
 
     public void paint(Graphics2D graphics2D) {
         graphics2D.setColor(Color.WHITE);
-        graphics2D.fillRect(0, 0, this.screenWidth, this.screenHeight);
+        graphics2D.fillRect(0, 0, getScreenWidth(), getScreenHeight());
 
-        this.currentStage.paint(graphics2D);
-        this.player.paint(graphics2D);
+        getCurrentStage().paint(graphics2D);
+        getPlayer().paint(graphics2D);
 
         graphics2D.dispose();
         super.paint(graphics2D);
     }
 
-    public void startGame() {
+    private void startGame() {
         System.gc();
-
-        this.addKeyboardHandler();
-        this.currentStage.start();
+        addKeyboardHandler();
+        getCurrentStage().start();
     }
 
-    public void loop() {
-        this.resetTime();
+    private void loop() {
+        resetTime();
 
-        while (this.currentStage.isActive()) {
-            this.update();
-            this.render();
-            this.customTimer.normalize();
-            this.customTimer.skipFrames();
-            this.customTimer.generateStatistics();
+        while (getCurrentStage().isActive()) {
+            update();
+            render();
+            getCustomTimer().normalize();
+            getCustomTimer().skipFrames();
+            getCustomTimer().generateStatistics();
         }
 
-        this.removeKeyListener(this.keyboardAdapter);
+        removeKeyListener(getKeyboardAdapter());
     }
 
     private void render() {
         try {
-            Graphics2D graphics2D = (Graphics2D) this.getGraphicContext();
+            Graphics2D graphics2D = (Graphics2D) getGraphicContext();
             paint(graphics2D);
             graphics2D.dispose();
 
-            if(!bufferStrategy.contentsLost()) bufferStrategy.show();
+            if(!getRenderStrategy().contentsLost()) getRenderStrategy().show();
             else System.out.println("Contents Lost");
 
             Toolkit.getDefaultToolkit().sync();
@@ -114,138 +104,110 @@ public class PonkanRun extends JFrame implements Animation {
         }
     }
 
-    public void resetTime() {
-        this.customTimer.restart();
+    private void resetTime() {
+        getCustomTimer().restart();
     }
 
-    public Graphics getGraphicContext() {
-        return this.bufferStrategy.getDrawGraphics();
-    } 
+    private void startScreen() {
+        int DEFAULT_HEIGHT = 728;
+        int DEFAULT_WIDTH = 1024;
 
-    private void setBufferStrategy() {
+        setIgnoreRepaint(true);
+        setResizable(false);
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setScreenEdge(getInsets());
+        setScreenWidth(getBounds().width + getScreenEdge().left + getScreenEdge().right);
+        setScreenHeight(getBounds().height + getScreenEdge().top + getScreenEdge().bottom);
+        setSize(getScreenWidth(), getScreenHeight());
+        setRenderStrategy();
+    }
+
+    private void addKeyboardHandler() {
+        removeKeyListener(getKeyboardAdapter());
+        addKeyListener(getKeyboardAdapter());
+    }
+
+    private Graphics getGraphicContext() {
+        return getRenderStrategy().getDrawGraphics();
+    }
+
+    private void setRenderStrategy() {
         try {
             EventQueue.invokeAndWait(() -> createBufferStrategy(2));
         } catch (Exception e) {
             System.out.println("Error creating buffer strategy");
             System.exit(0);
         }
-        bufferStrategy = getBufferStrategy();
+        this.renderStrategy = getBufferStrategy();
     }
 
-    protected void setActive (boolean active) {
+    private BufferStrategy getRenderStrategy() {
+        return renderStrategy;
+    }
+
+    private void setKeyboardAdapter (KeyboardAdapter keyboardAdapter) {
+        this.keyboardAdapter = keyboardAdapter;
+    }
+
+    private KeyboardAdapter getKeyboardAdapter() {
+        return keyboardAdapter;
+    }
+
+    private void setCustomTimer (CustomTimer customTimer) {
+        this.customTimer = customTimer;
+    }
+
+    private CustomTimer getCustomTimer() {
+        return customTimer;
+    }
+
+    private void setCurrentStage (Stage currentStage) {
+        this.currentStage = currentStage;
+    }
+
+    public Stage getCurrentStage() {
+        return currentStage;
+    }
+
+    private void setPlayer (Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    private void setActive (boolean active) {
         this.active = active;
     }
 
-    public boolean isActive() {
+    private boolean getActive() {
         return active;
     }
 
-    private void startFullScreen() {
-        int width = DEFAULT_WIDTH,
-                height = DEFAULT_HEIGHT,
-                bitDepth = 32;
-
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        graphicsDevice = ge.getDefaultScreenDevice();
-
-        setIgnoreRepaint(true);
-        setResizable(false);
-
-        if(!(graphicsDevice.isFullScreenSupported())) {
-            System.out.println("Full screen not supported");
-            startInTestMode(width, height);
-        } else {
-            if(displayModeAvailable(width, height, bitDepth)) {
-                int refreshRate = getRefreshRate(width, height, bitDepth);
-
-                if(refreshRate != 0) {
-                    graphicsDevice.setFullScreenWindow(this);
-                    this.setDisplayMode(width, height, bitDepth, refreshRate);
-                } else {
-                    startInTestMode(width, height);
-                }
-            }
-            else {
-                startInTestMode(width, height);
-            }
-        }
-
-        screenWidth = getBounds().width;
-        screenHeight = getBounds().height;
-
-        setBufferStrategy();
+    public int getScreenWidth() {
+        return screenWidth;
     }
 
-    private void startInTestMode(int width, int height) {
-        graphicsDevice = null;
-
-        setSize(width, height);
-        setLocationRelativeTo(null);
-        setVisible(true);
+    private void setScreenWidth(int screenWidth) {
+        this.screenWidth = screenWidth;
     }
 
-    private void setDisplayMode(int width, int height, int bitDepth, int refreshRate) {
-        if(!graphicsDevice.isDisplayChangeSupported()) {
-            System.out.println("Display change not supported");
-            startInTestMode(width, height);
-            return;
-        }
-
-        DisplayMode displayMode = new DisplayMode(width, height, bitDepth, refreshRate);
-
-        try {
-            graphicsDevice.setDisplayMode(displayMode);
-            System.out.println("Display mode changed to:: (" + width + "," +
-                    height + "," + bitDepth + ")");
-        } catch(IllegalArgumentException e) {
-            System.out.println("Error when changing display mode (" + width + "," +
-                    height + "," + bitDepth + ")");
-        }
-
-        try {
-            Thread.sleep(1000);
-        } catch(InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
+    public int getScreenHeight() {
+        return screenHeight;
     }
 
-    private int getRefreshRate(int width, int height, int bitDepth) {
-        int refRateDefault = 75;
-        int refRateAcceptable = 85;
-        boolean isDefault = false;
-        boolean isAcceptable = false;
-        DisplayMode[] modes = graphicsDevice.getDisplayModes();
-
-        for(DisplayMode mode: modes) {
-            if(mode.getWidth() == width &&
-                    mode.getHeight() == height &&
-                    mode.getBitDepth() == bitDepth) {
-                if(mode.getRefreshRate() == refRateDefault) {
-                    isDefault = true;
-                } else if(mode.getRefreshRate() == refRateAcceptable) {
-                    isAcceptable = true;
-                }
-            }
-        }
-
-        if(isAcceptable) return refRateAcceptable;
-        else if(isDefault) return refRateDefault;
-        else return 0;
+    private void setScreenHeight(int screenHeight) {
+        this.screenHeight = screenHeight;
     }
 
-    private boolean displayModeAvailable(int width, int height, int bitDepth) {
-        DisplayMode[] modes = graphicsDevice.getDisplayModes();
-
-        for (DisplayMode mode : modes) {
-            if (width == mode.getWidth() && height == mode.getHeight() && bitDepth == mode.getBitDepth()) {
-                return true;
-            }
-        }
-        return false;
+    private Insets getScreenEdge() {
+        return screenEdge;
     }
 
-    public void addKeyboardHandler() {
-        this.removeKeyListener(this.keyboardAdapter);
-        this.addKeyListener(this.keyboardAdapter);
+    private void setScreenEdge(Insets screenEdge) {
+        this.screenEdge = screenEdge;
     }
 }

@@ -16,19 +16,19 @@ public class KeyboardAdapter extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER -> {
-                switch (this.game.currentStage.getCurrentStageType()) {
-                    case PLAY -> this.game.currentStage.prepareStagePlaying();
-                    case LOST -> this.game.currentStage.prepareStagePlay();
+                switch (this.game.getCurrentStage().getCurrentStageType()) {
+                    case PLAY -> this.game.getCurrentStage().prepareStagePlaying();
+                    case LOST -> this.game.getCurrentStage().prepareStagePlay();
                 }
             }
             case KeyEvent.VK_UP -> {
-                if (this.game.player.getRemainingJumps() > 0) this.game.player.jump();
+                if (this.game.getPlayer().getRemainingJumps() > 0) this.game.getPlayer().jump();
             }
-            case KeyEvent.VK_DOWN -> this.game.player.roll();
+            case KeyEvent.VK_DOWN -> this.game.getPlayer().roll();
             case KeyEvent.VK_P, KeyEvent.VK_PAUSE-> {
-                switch (this.game.currentStage.getCurrentStageType()) {
-                    case PLAYING -> this.game.currentStage.pause();
-                    case PAUSED -> this.game.currentStage.unpause();
+                switch (this.game.getCurrentStage().getCurrentStageType()) {
+                    case PLAYING -> this.game.getCurrentStage().pause();
+                    case PAUSED -> this.game.getCurrentStage().unpause();
                 }
             }
         }
@@ -36,6 +36,6 @@ public class KeyboardAdapter extends KeyAdapter {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) this.game.player.getUp();
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) this.game.getPlayer().getUp();
     }
 }

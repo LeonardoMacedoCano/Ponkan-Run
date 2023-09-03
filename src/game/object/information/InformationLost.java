@@ -24,7 +24,7 @@ public class InformationLost extends DefaultInformation {
         Font font;
 
         font = new Font("TimesRoman", Font.PLAIN, 45);
-        text = new AttributedString(String.format("Score: %03d", this.game.currentStage.getCurrentScore()));
+        text = new AttributedString(String.format("Score: %03d", this.game.getCurrentStage().getCurrentScore()));
 
         text.addAttribute(TextAttribute.FONT, font);
         text.addAttribute(TextAttribute.FOREGROUND, Color.white);
@@ -37,8 +37,8 @@ public class InformationLost extends DefaultInformation {
         setText(text);
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
-        setXText((this.game.DEFAULT_WIDTH - getTextBoxWidth()) / 2);
-        setYText((this.game.DEFAULT_HEIGHT + getTextBoxHeight()) / 2);
+        setXText((this.game.getScreenWidth() - getTextBoxWidth()) / 2);
+        setYText((this.game.getScreenHeight() + getTextBoxHeight()) / 2);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class InformationLost extends DefaultInformation {
 
     @Override
     protected void setStartPosition() {
-        setX((this.game.DEFAULT_WIDTH - getWidth()) / 2);
-        setY((this.game.DEFAULT_HEIGHT - getHeight()) / 2);
+        setX((this.game.getScreenWidth() - getWidth()) / 2);
+        setY((this.game.getScreenHeight() - getHeight()) / 2);
     }
 
     @Override

@@ -20,8 +20,8 @@ public class ObstacleTeaCup extends DefaultObstacle {
 
     @Override
     protected void setStartPosition() {
-        setX(this.game.DEFAULT_WIDTH);
-        setY(this.game.currentStage.background.FLOOR_HEIGHT - getHeight());
+        setX(this.game.getScreenWidth());
+        setY(this.game.getCurrentStage().background.FLOOR_HEIGHT - getHeight());
     }
 
     @Override
