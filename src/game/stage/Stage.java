@@ -18,6 +18,7 @@ public class Stage implements Animation {
     private static Timer timer;
     private EnvironmentBackground environmentBackground;
     private EnvironmentFloor environmentFloor;
+    private KnifeStand knifeStand;
     private List<DefaultInformation> listInformation;
     private List<DefaultObstacle> listObstacle;
     private LibraryUtils.StageType currentStageType;
@@ -42,6 +43,7 @@ public class Stage implements Animation {
         setTimer(new Timer(2000, new Listener()));
         setEnvironmentBackground(new EnvironmentBackground(getGame()));
         setEnvironmentFloor(new EnvironmentFloor(getGame()));
+        setKnifeStand(new KnifeStand(getGame()));
         setListInformation(new ArrayList<>());
         setListObstacle(new ArrayList<>());
         setActive(false);
@@ -50,6 +52,7 @@ public class Stage implements Animation {
     public void paint(Graphics2D graphics2D) {
         getEnvironmentBackground().paint(graphics2D);
         getEnvironmentFloor().paint(graphics2D);
+        getKnifeStand().paint(graphics2D);
         paintListInformation(graphics2D);
         paintListObstacle(graphics2D);
     }
@@ -58,6 +61,7 @@ public class Stage implements Animation {
     public void update() {
         getEnvironmentBackground().update();
         getEnvironmentFloor().update();
+        getKnifeStand().update();
         updateListInformation();
 
         if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
@@ -221,6 +225,14 @@ public class Stage implements Animation {
 
     private EnvironmentFloor getEnvironmentFloor() {
         return environmentFloor;
+    }
+
+    private void setKnifeStand(KnifeStand knifeStand) {
+        this.knifeStand = knifeStand;
+    }
+
+    public KnifeStand getKnifeStand() {
+        return knifeStand;
     }
 
     private void setListInformation(List<DefaultInformation> listInformation) {
