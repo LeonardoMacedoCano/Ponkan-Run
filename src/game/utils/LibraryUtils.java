@@ -10,6 +10,7 @@ public class LibraryUtils {
     private static final String PATH_IMG_ENVIRONMENT = String.format("%s/environment/", PATH_IMG);
     public static final String PATH_IMG_ENVIRONMENT_BG = String.format("%s/environment-bg/", PATH_IMG_ENVIRONMENT);
     public static final String PATH_IMG_ENVIRONMENT_FLOOR = String.format("%s/environment-floor/", PATH_IMG_ENVIRONMENT);
+    public static final String PATH_IMG_ENVIRONMENT_KNIFE_STAND = String.format("%s/knife-stand/", PATH_IMG_ENVIRONMENT);
     public static final String PATH_IMG_INFORMATION = String.format("%s/information", PATH_IMG);
     public static final String PATH_IMG_PLAYER = String.format("%s/player/", PATH_IMG);
     public static final String PATH_IMG_PLAYER_STOPPED = String.format("%s/player-stopped/", PATH_IMG_PLAYER);
