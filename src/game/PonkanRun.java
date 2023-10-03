@@ -76,6 +76,7 @@ public class PonkanRun extends JFrame implements Animation {
 
         getCurrentStage().paint(graphics2D);
         getPlayer().paint(graphics2D);
+        graphics2D.drawString(String.format("FPS: %.2f   UPS: %.2f", customTimer.getAverageFPS(), customTimer.getAverageUPS()), 352, 390);
 
         graphics2D.dispose();
         super.paint(graphics2D);
@@ -118,7 +119,7 @@ public class PonkanRun extends JFrame implements Animation {
     }
 
     private void resetTime() {
-        getCustomTimer().restart();
+        getCustomTimer().reset();
     }
 
     private void addKeyboardHandler() {
