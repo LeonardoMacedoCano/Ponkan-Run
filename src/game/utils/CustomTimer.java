@@ -3,7 +3,7 @@ package game.utils;
 public class CustomTimer {
     private static final long NANOS_IN_MILLIS = 1_000_000L;
     private static final long NANOS_IN_SECOND = 1_000_000_000L;
-    private static final int NUM_FPS_FOR_AVERAGE = 10;
+    private static final int MAX_FPS_SAMPLES = 10;
     private final Animation game;
     private final long targetTime;
     private long timeBefore;
@@ -27,242 +27,120 @@ public class CustomTimer {
     public CustomTimer(Animation game, int targetFPS) {
         this.game = game;
         this.targetTime = targetFPS * NANOS_IN_MILLIS;
-        this.FPSRecorder = new double[NUM_FPS_FOR_AVERAGE];
-        this.UPSRecorder = new double[NUM_FPS_FOR_AVERAGE];
-        setSleepTime(this.targetTime);
-        setPreviousStatisticTime(this.timeBefore = System.nanoTime());
+        this.FPSRecorder = new double[MAX_FPS_SAMPLES];
+        this.UPSRecorder = new double[MAX_FPS_SAMPLES];
+        this.sleepTime = this.targetTime;
+        this.previousStatisticTime = this.timeBefore = System.nanoTime();
     }
 
     public void normalize() {
         long currentTime = System.nanoTime();
-        long elapsedNanos = currentTime - getTimeBefore();
-        setSleepTime((getTargetTime() - elapsedNanos) - getDelay());
+        long elapsedNanos = currentTime - timeBefore;
+        sleepTime = (targetTime - elapsedNanos) - delay;
 
-        if (getSleepTime() > 0) {
+        if (sleepTime > 0) {
             try {
-                Thread.sleep(getSleepTime() / NANOS_IN_MILLIS);
+                Thread.sleep(sleepTime / NANOS_IN_MILLIS);
             } catch (InterruptedException e) {
                 System.err.println("An error occurred while waiting in the 'normalize' method: " + e.getMessage());
                 System.exit(1);
             }
-
-            setDelay((System.nanoTime() - currentTime) - getSleepTime());
+            delay = (System.nanoTime() - currentTime) - sleepTime;
         } else {
-            setExcess(getExcess() - getSleepTime());
-            setDelay(0L);
+            excess -= sleepTime;
+            delay = 0L;
             long maxDelays = 1;
-            if (getNumDelays() < maxDelays) {
+
+            if (++numDelays >= maxDelays) {
                 Thread.yield();
+                numDelays = 0;
             }
-            setNumDelays(getNumDelays() + 1);
         }
-        setTimeBefore(System.nanoTime());
+        timeBefore = System.nanoTime();
     }
 
-
     public void skipFrames() {
-        setJumps(0);
-
+        jumps = 0;
         int MAX_FRAME_JUMP = 25;
-        while ((getExcess() > getTargetTime()) && (getJumps() < MAX_FRAME_JUMP)) {
-            setExcess(getExcess() - getTargetTime());
+
+        while ((excess > targetTime) && (jumps < MAX_FRAME_JUMP)) {
+            excess -= targetTime;
             if (game != null) game.update();
-            setJumps(getJumps() + 1);
+            jumps++;
         }
-        setSkippedFrames(getSkippedFrames() + getJumps());
+        skippedFrames += jumps;
     }
 
     public void generateStatistics() {
-        setFrameCounter(getFrameCounter() + 1);
-        setStatIntervalNanos(getStatIntervalNanos() + getTargetTime());
+        ++frameCounter;
+        statIntervalNanos += targetTime;
 
-        long MAX_INTERVAL_FOR_STATISTICS = 1000000000L;
-        if (getStatIntervalNanos() >= MAX_INTERVAL_FOR_STATISTICS) {
+        if (statIntervalNanos >= NANOS_IN_SECOND) {
             double currentFPS = 0.0;
             double currentUPS = 0.0;
-
+            double totalFPS = 0.0;
+            double totalUPS = 0.0;
             long currentTime = System.nanoTime();
-            long timeBetweenStatistics = currentTime - getPreviousStatisticTime();
+            long timeBetweenStatistics = currentTime - previousStatisticTime;
+            elapsedTime += timeBetweenStatistics;
+            totalSkippedFrames += skippedFrames;
+            skippedFrames = 0;
 
-            setElapsedTime(getElapsedTime() + timeBetweenStatistics);
-            setTotalSkippedFrames(getTotalSkippedFrames() + getSkippedFrames());
-            setSkippedFrames(0);
-
-            if (getElapsedTime() > 0) {
-                currentFPS = (((double) getFrameCounter() / getElapsedTime()) * NANOS_IN_SECOND);
-                currentUPS = (((double) (getFrameCounter() + getTotalSkippedFrames()) / getElapsedTime()) * NANOS_IN_SECOND);
+            if (elapsedTime > 0) {
+                currentFPS = (((double) frameCounter / elapsedTime) * NANOS_IN_SECOND);
+                currentUPS = (((double) (frameCounter + totalSkippedFrames) / elapsedTime) * NANOS_IN_SECOND);
             }
 
-            FPSRecorder[(int) getStatisticsCounter() % NUM_FPS_FOR_AVERAGE] = currentFPS;
-            UPSRecorder[(int) getStatisticsCounter() % NUM_FPS_FOR_AVERAGE] = currentUPS;
+            FPSRecorder[(int) statisticsCounter % MAX_FPS_SAMPLES] = currentFPS;
+            UPSRecorder[(int) statisticsCounter++ % MAX_FPS_SAMPLES] = currentUPS;
 
-            setStatisticsCounter(getStatisticsCounter() + 1);
-
-            if (getStatisticsCounter() > 0) {
-                double totalFPS = 0.0;
-                double totalUPS = 0.0;
-
-                for (int i = 0; i < NUM_FPS_FOR_AVERAGE; i++) {
-                    totalFPS += FPSRecorder[i];
-                    totalUPS += UPSRecorder[i];
-                }
-
-                setAverageFPS(totalFPS / getStatisticsCounter());
-                setAverageUPS(totalUPS / getStatisticsCounter());
+            for (int i = 0; i < MAX_FPS_SAMPLES; i++) {
+                totalFPS += FPSRecorder[i];
+                totalUPS += UPSRecorder[i];
             }
 
-            setStatIntervalNanos(0L);
-            setPreviousStatisticTime(currentTime);
+            if (statisticsCounter < MAX_FPS_SAMPLES) {
+                averageFPS = totalFPS / statisticsCounter;
+                averageUPS = totalUPS / statisticsCounter;
+            } else {
+                averageFPS = totalFPS / MAX_FPS_SAMPLES;
+                averageUPS = totalUPS / MAX_FPS_SAMPLES;
+            }
+
+            statIntervalNanos = 0L;
+            previousStatisticTime = currentTime;
         }
-    }
-
-    public long getTargetTime() {
-        return targetTime;
-    }
-
-    public long getTimeBefore() {
-        return timeBefore;
-    }
-
-    public void setTimeBefore(long timeBefore) {
-        this.timeBefore = timeBefore;
-    }
-
-    public long getSleepTime() {
-        return sleepTime;
-    }
-
-    public void setSleepTime(long sleepTime) {
-        this.sleepTime = sleepTime;
-    }
-
-    public long getJumps() {
-        return jumps;
-    }
-
-    public void setJumps(long jumps) {
-        this.jumps = jumps;
-    }
-
-    public long getDelay() {
-        return delay;
-    }
-
-    public void setDelay(long delay) {
-        this.delay = delay;
-    }
-
-    public long getNumDelays() {
-        return numDelays;
-    }
-
-    public void setNumDelays(long numDelays) {
-        this.numDelays = numDelays;
-    }
-
-    public long getExcess() {
-        return excess;
-    }
-
-    public void setExcess(long excess) {
-        this.excess = excess;
-    }
-
-    public long getElapsedTime() {
-        return elapsedTime;
-    }
-
-    public void setElapsedTime(long elapsedTime) {
-        this.elapsedTime = elapsedTime;
-    }
-
-    public long getPreviousStatisticTime() {
-        return previousStatisticTime;
-    }
-
-    public void setPreviousStatisticTime(long previousStatisticTime) {
-        this.previousStatisticTime = previousStatisticTime;
-    }
-
-    public long getFrameCounter() {
-        return frameCounter;
-    }
-
-    public void setFrameCounter(long frameCounter) {
-        this.frameCounter = frameCounter;
-    }
-
-    public long getSkippedFrames() {
-        return skippedFrames;
-    }
-
-    public void setSkippedFrames(long skippedFrames) {
-        this.skippedFrames = skippedFrames;
-    }
-
-    public long getTotalSkippedFrames() {
-        return totalSkippedFrames;
-    }
-
-    public void setTotalSkippedFrames(long totalSkippedFrames) {
-        this.totalSkippedFrames = totalSkippedFrames;
-    }
-
-    public long getStatIntervalNanos() {
-        return statIntervalNanos;
-    }
-
-    public void setStatIntervalNanos(long statIntervalNanos) {
-        this.statIntervalNanos = statIntervalNanos;
-    }
-
-    public long getStatisticsCounter() {
-        return statisticsCounter;
-    }
-
-    public void setStatisticsCounter(long statisticsCounter) {
-        this.statisticsCounter = statisticsCounter;
     }
 
     public double getAverageFPS() {
         return averageFPS;
     }
 
-    public void setAverageFPS(double averageFPS) {
-        this.averageFPS = averageFPS;
-    }
-
     public double getAverageUPS() {
         return averageUPS;
     }
 
-    public void setAverageUPS(double averageUPS) {
-        this.averageUPS = averageUPS;
-    }
-
     public void reset() {
-        setStatIntervalNanos(0L);
-        setPreviousStatisticTime(0);
-        setFrameCounter(0);
-        setStatisticsCounter(0);
-        setAverageFPS(0.0);
-        setSkippedFrames(0L);
-        setTotalSkippedFrames(0L);
-        setAverageUPS(0.0);
-        setElapsedTime(0L);
-        setJumps(0);
-        setDelay(0);
-        setNumDelays(0);
-        setExcess(0);
+        statIntervalNanos = 0L;
+        previousStatisticTime = 0;
+        frameCounter = 0;
+        statisticsCounter = 0;
+        averageFPS = 0.0;
+        skippedFrames = 0L;
+        totalSkippedFrames = 0L;
+        averageUPS = 0.0;
+        elapsedTime = 0L;
+        jumps = 0;
+        delay = 0;
+        numDelays = 0;
+        excess = 0;
 
         for (int i = 0; i < FPSRecorder.length; ++i) {
             FPSRecorder[i] = 0;
             UPSRecorder[i] = 0;
         }
 
-        setSleepTime(getTargetTime());
-        setTimeBefore(System.nanoTime());
-        setPreviousStatisticTime(getTimeBefore());
+        sleepTime = targetTime;
+        previousStatisticTime = timeBefore = System.nanoTime();
     }
-
 }
