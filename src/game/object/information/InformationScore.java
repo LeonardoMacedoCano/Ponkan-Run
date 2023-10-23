@@ -29,7 +29,7 @@ public class InformationScore extends DefaultInformation {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
 
     }
 

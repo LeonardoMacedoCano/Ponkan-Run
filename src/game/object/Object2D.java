@@ -35,13 +35,13 @@ public abstract class Object2D implements Animation {
         graphics2D.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), getGame());
     }
 
-    public abstract void updateFrame();
+    protected abstract void beforeCreateObject();
+
+    protected abstract void updateFrame();
 
     protected abstract void setStartPosition();
 
     protected abstract String getImageFrame();
-
-    protected abstract void beforeCreateObject();
 
     protected abstract void afterCreateObject();
 
@@ -94,7 +94,7 @@ public abstract class Object2D implements Animation {
         return frame;
     }
 
-    public void setGame(PonkanRun game) {
+    protected void setGame(PonkanRun game) {
         this.game = game;
     }
 

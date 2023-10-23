@@ -14,7 +14,7 @@ public class ObstacleKnife extends DefaultObstacle {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
 
     }
 

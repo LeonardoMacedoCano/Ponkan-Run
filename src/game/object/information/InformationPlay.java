@@ -22,7 +22,7 @@ public class InformationPlay extends DefaultInformation {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
 
     }
 

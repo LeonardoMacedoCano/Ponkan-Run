@@ -14,7 +14,7 @@ public class ObstacleTeaCup extends DefaultObstacle {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
 
     }
 

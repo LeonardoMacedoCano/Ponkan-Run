@@ -15,7 +15,7 @@ public class EnvironmentFloor extends Object2D {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
 
     }
 

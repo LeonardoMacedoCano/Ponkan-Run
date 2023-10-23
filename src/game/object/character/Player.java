@@ -32,7 +32,7 @@ public class Player extends Object2D {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
         if (getFrame() < (getFrameBase() * getLastFrame())) {
             setFrame(getFrame() +1);
         } else {
@@ -80,6 +80,24 @@ public class Player extends Object2D {
         setCurrentTotalLives(MAX_LIVES);
     }
 
+    public void jump() {
+        int FORCE_JUMP = 28;
+        setVelocity(-FORCE_JUMP);
+        setRemainingJumps(getRemainingJumps() -1);
+    }
+
+    public void roll() {
+        setRolling(true);
+    }
+
+    public void getUp() {
+        setRolling(false);
+    }
+
+    public void loseLife()  {
+        setCurrentTotalLives(getCurrentTotalLives() - 1);
+    }
+
     private void updateVelocity() {
         setVelocity(getVelocity() + getGame().getCurrentStage().GRAVITATIONAL_FORCE);
     }
@@ -93,22 +111,8 @@ public class Player extends Object2D {
         }
     }
 
-    public void jump() {
-        int FORCE_JUMP = 28;
-        setVelocity(-FORCE_JUMP);
-        setRemainingJumps(getRemainingJumps() -1);
-    }
-
     private boolean isJumping() {
         return ((getY() + getVelocity()) < (getGame().getCurrentStage().getGroundPosition() - getHeight()));
-    }
-
-    public void roll() {
-        setRolling(true);
-    }
-
-    public void getUp() {
-        setRolling(false);
     }
 
     private void setPlayerOnTheFloor() {
@@ -159,7 +163,7 @@ public class Player extends Object2D {
         return velocity;
     }
 
-    public void setCurrentTotalLives(int currentTotalLives) {
+    private void setCurrentTotalLives(int currentTotalLives) {
         this.currentTotalLives = currentTotalLives;
     }
 

@@ -21,7 +21,7 @@ public class InformationLives extends DefaultInformation {
     }
 
     @Override
-    public void updateFrame() {
+    protected void updateFrame() {
 
     }
 

@@ -176,7 +176,7 @@ public class Stage implements Animation {
         for (DefaultObstacle defaultObstacle : getListObstacle()) {
             if (LibraryUtils.checkCollisionBetweenObjects2D(getGame().getPlayer(), defaultObstacle)) {
                 obstaclesToRemove.add(defaultObstacle);
-                getGame().getPlayer().setCurrentTotalLives(getGame().getPlayer().getCurrentTotalLives() - 1);
+                getGame().getPlayer().loseLife();
 
                 if (getGame().getPlayer().getCurrentTotalLives() <= 0) {
                     prepareStageLost();
