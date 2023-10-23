@@ -76,22 +76,6 @@ public class Stage implements Animation {
         prepareStagePlay();
     }
 
-    public void prepareStagePlay() {
-        setCurrentStageType(LibraryUtils.StageType.PLAY);
-        setCurrentScore(0);
-        setCurrentVelocity(0);
-        setMillisUntilNextObstacle(0);
-        setMinDistBetweenObstacles(0);
-        getGame().getPlayer().prepareStagePlay();
-        getListObstacle().clear();
-    }
-
-    public void prepareStagePlaying() {
-        setCurrentStageType(LibraryUtils.StageType.PLAYING);
-        setCurrentVelocity(INITIAL_VELOCITY);
-        setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
-    }
-
     public void pause() {
         setCurrentStageType(LibraryUtils.StageType.PAUSED);
     }
@@ -122,7 +106,23 @@ public class Stage implements Animation {
         }
     }
 
-    public void prepareStageLost() {
+    private void prepareStagePlay() {
+        setCurrentStageType(LibraryUtils.StageType.PLAY);
+        setCurrentScore(0);
+        setCurrentVelocity(0);
+        setMillisUntilNextObstacle(0);
+        setMinDistBetweenObstacles(0);
+        getGame().getPlayer().prepareStagePlay();
+        getListObstacle().clear();
+    }
+
+    private void prepareStagePlaying() {
+        setCurrentStageType(LibraryUtils.StageType.PLAYING);
+        setCurrentVelocity(INITIAL_VELOCITY);
+        setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
+    }
+
+    private void prepareStageLost() {
         setCurrentStageType(LibraryUtils.StageType.LOST);
     }
 
