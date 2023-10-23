@@ -81,9 +81,12 @@ public class Player extends Object2D {
     }
 
     public void jump() {
-        int FORCE_JUMP = 28;
-        setVelocity(-FORCE_JUMP);
-        setRemainingJumps(getRemainingJumps() -1);
+        if (getRemainingJumps() > 0) {
+            int FORCE_JUMP = 28;
+
+            setVelocity(-FORCE_JUMP);
+            setRemainingJumps(getRemainingJumps() -1);
+        }
     }
 
     public void roll() {

@@ -15,22 +15,18 @@ public class KeyboardAdapter extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_ENTER -> {
-                switch (getGame().getCurrentStage().getCurrentStageType()) {
-                    case PLAY -> getGame().getCurrentStage().prepareStagePlaying();
-                    case LOST -> getGame().getCurrentStage().prepareStagePlay();
-                }
-            }
-            case KeyEvent.VK_UP -> {
-                if (getGame().getPlayer().getRemainingJumps() > 0) getGame().getPlayer().jump();
-            }
-            case KeyEvent.VK_DOWN -> getGame().getPlayer().roll();
-            case KeyEvent.VK_P, KeyEvent.VK_PAUSE-> {
-                switch (getGame().getCurrentStage().getCurrentStageType()) {
-                    case PLAYING -> getGame().getCurrentStage().pause();
-                    case PAUSED -> getGame().getCurrentStage().unpause();
-                }
-            }
+            case KeyEvent.VK_ENTER:
+                getGame().getCurrentStage().alterCurrentStage();
+                break;
+            case KeyEvent.VK_UP:
+                getGame().getPlayer().jump();
+                break;
+            case KeyEvent.VK_DOWN:
+                getGame().getPlayer().roll();
+                break;
+            case KeyEvent.VK_P, KeyEvent.VK_PAUSE:
+                getGame().getCurrentStage().controlPause();
+                break;
         }
     }
 

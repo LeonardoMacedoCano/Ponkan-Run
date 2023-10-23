@@ -100,6 +100,28 @@ public class Stage implements Animation {
         setCurrentStageType(LibraryUtils.StageType.PLAYING);
     }
 
+    public void alterCurrentStage() {
+        switch (getCurrentStageType()) {
+            case PLAY:
+                prepareStagePlaying();
+                break;
+            case LOST:
+                prepareStagePlay();
+                break;
+        }
+    }
+
+    public void controlPause() {
+        switch (getCurrentStageType()) {
+            case PLAYING:
+                pause();
+                break;
+            case PAUSED:
+                unpause();
+                break;
+        }
+    }
+
     public void prepareStageLost() {
         setCurrentStageType(LibraryUtils.StageType.LOST);
     }
