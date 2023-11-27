@@ -55,6 +55,7 @@ public class Stage implements Animation {
         getKnifeStand().paint(graphics2D);
         paintListInformation(graphics2D);
         paintListObstacle(graphics2D);
+        paintPlayerItems(graphics2D);
     }
 
     @Override
@@ -66,7 +67,10 @@ public class Stage implements Animation {
 
         if (getCurrentStageType().equals(LibraryUtils.StageType.PLAYING)) {
             updateListObstacle();
+            updatePlayerItems();
+
             checkCollisionInListObstacle();
+            checkListObstacleCollisionWithPlayerItem();
         }
     }
 
@@ -162,6 +166,10 @@ public class Stage implements Animation {
         getListObstacle().removeAll(obstaclesToRemove);
     }
 
+    private void updatePlayerItems() {
+        getGame().getPlayer().updatePlayerItems();
+    }
+
     private void addObstacle() {
         int randomObstacleType = (int)Math.floor(LibraryUtils.ObstacleType.getTotalObstacleType() * Math.random());
 
@@ -193,6 +201,10 @@ public class Stage implements Animation {
         }
     }
 
+    private void paintPlayerItems(Graphics2D graphics2D) {
+        getGame().getPlayer().paintPlayerItems(graphics2D);
+    }
+
     private void checkCollisionInListObstacle() {
         List<DefaultObstacle> obstaclesToRemove = new ArrayList<>();
 
@@ -204,6 +216,18 @@ public class Stage implements Animation {
                 if (getGame().getPlayer().getCurrentTotalLives() <= 0) {
                     prepareStageLost();
                 }
+            }
+        }
+
+        getListObstacle().removeAll(obstaclesToRemove);
+    }
+
+    private void checkListObstacleCollisionWithPlayerItem() {
+        List<DefaultObstacle> obstaclesToRemove = new ArrayList<>();
+
+        for (DefaultObstacle defaultObstacle : getListObstacle()) {
+            if (getGame().getPlayer().checkObstacleCollisionWithListItem(defaultObstacle)) {
+                obstaclesToRemove.add(defaultObstacle);
             }
         }
 
@@ -294,7 +318,7 @@ public class Stage implements Animation {
         this.currentVelocity = currentVelocity;
     }
 
-    private int getCurrentVelocity() {
+    public int getCurrentVelocity() {
         return currentVelocity;
     }
 

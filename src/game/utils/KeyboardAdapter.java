@@ -27,6 +27,8 @@ public class KeyboardAdapter extends KeyAdapter {
             case KeyEvent.VK_P, KeyEvent.VK_PAUSE:
                 getGame().getCurrentStage().controlPause();
                 break;
+            case KeyEvent.VK_F:
+                getGame().getPlayer().throwLeaf();
         }
     }
 

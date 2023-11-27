@@ -2,7 +2,13 @@ package game.object.character;
 
 import game.PonkanRun;
 import game.object.Object2D;
+import game.object.item.Leaf;
+import game.object.obstacle.DefaultObstacle;
 import game.utils.LibraryUtils;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends Object2D {
     private int frameBase;
@@ -11,6 +17,7 @@ public class Player extends Object2D {
     private int currentTotalLives;
     private int currentTotalLeaf;
     private int remainingJumps;
+    private List<Leaf> listLeaf;
     private final int LAST_FRAME_JUMPING = 3;
     private final int LAST_FRAME_STOPPED = 4;
     private final int LAST_FRAME_ROLLING = 4;
@@ -21,6 +28,7 @@ public class Player extends Object2D {
 
     public Player(PonkanRun game) {
         super(game);
+        setListLeaf(new ArrayList<>());
     }
 
     @Override
@@ -76,12 +84,58 @@ public class Player extends Object2D {
         setRolling(false);
     }
 
+    public void paintPlayerItems(Graphics2D graphics2D) {
+        paintListLeaf(graphics2D);
+    }
+
+    private void paintListLeaf(Graphics2D graphics2D) {
+        for (Leaf leaf : getListLeaf()) {
+            graphics2D.drawImage(leaf.getImage(), leaf.getX(), leaf.getY(), leaf.getWidth(), leaf.getHeight(), getGame());
+        }
+    }
+
+    public void updatePlayerItems() {
+        updateListLeaf();
+    }
+
+    private void updateListLeaf() {
+        for (Leaf leaf : getListLeaf()) {
+            leaf.setX(leaf.getX() + getGame().getCurrentStage().getCurrentVelocity());
+            leaf.update();
+        }
+    }
+
+    public boolean checkObstacleCollisionWithListItem(DefaultObstacle obstacle) {
+        boolean isCollision = false;
+        List<Leaf> leafToRemove = new ArrayList<>();
+
+        for (Leaf leaf : getListLeaf()) {
+            if (LibraryUtils.checkCollisionBetweenObjects2D(leaf, obstacle)) {
+                leafToRemove.add(leaf);
+                isCollision = true;
+            } else {
+                leaf.setX(leaf.getX() + getGame().getCurrentStage().getCurrentVelocity());
+            }
+        }
+
+        getListLeaf().removeAll(leafToRemove);
+        return isCollision;
+    }
+
     public void prepareStagePlay() {
         setFrame(1);
         setFrameBase(10);
         setVelocity(0);
         setCurrentTotalLives(MAX_LIVES);
         setCurrentTotalLeaf(MAX_LEAF);
+        getListLeaf().clear();
+    }
+
+    public void throwLeaf() {
+        if (getCurrentTotalLeaf() > 0) {
+            getListLeaf().add(new Leaf(getGame()));
+            setCurrentTotalLeaf(getCurrentTotalLeaf() -1);
+        }
     }
 
     public void jump() {
@@ -200,5 +254,13 @@ public class Player extends Object2D {
 
     private boolean isRolling() {
         return isRolling;
+    }
+
+    private void setListLeaf(List<Leaf> listLeaf) {
+        this.listLeaf = listLeaf;
+    }
+
+    private List<Leaf> getListLeaf() {
+        return listLeaf;
     }
 }
