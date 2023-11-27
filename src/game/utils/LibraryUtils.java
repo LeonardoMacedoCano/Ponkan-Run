@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class LibraryUtils {
     private static final String PATH_IMG = "src/game/image/";
     private static final String PATH_IMG_ENVIRONMENT = String.format("%s/environment/", PATH_IMG);
+    private static final String PATH_IMG_ITEM = String.format("%s/item/", PATH_IMG);
     public static final String PATH_IMG_ENVIRONMENT_BG = String.format("%s/environment-bg/", PATH_IMG_ENVIRONMENT);
     public static final String PATH_IMG_ENVIRONMENT_FLOOR = String.format("%s/environment-floor/", PATH_IMG_ENVIRONMENT);
     public static final String PATH_IMG_ENVIRONMENT_KNIFE_STAND = String.format("%s/knife-stand/", PATH_IMG_ENVIRONMENT);
@@ -18,6 +19,7 @@ public class LibraryUtils {
     public static final String PATH_IMG_PLAYER_JUMPING = String.format("%s/player-jumping/", PATH_IMG_PLAYER);
     public static final String PATH_IMG_PLAYER_ROLLING = String.format("%s/player-rolling/", PATH_IMG_PLAYER);
     public static final String PATH_IMG_OBSTACLE = String.format("%s/obstacle/", PATH_IMG);
+    public static final String PATH_IMG_ITEM_LEAF = String.format("%s/leaf/", PATH_IMG_ITEM);
 
     public enum StageType {
         PLAY,
