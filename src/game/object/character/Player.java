@@ -9,12 +9,14 @@ public class Player extends Object2D {
     private boolean isRolling;
     private int velocity;
     private int currentTotalLives;
+    private int currentTotalLeaf;
     private int remainingJumps;
     private final int LAST_FRAME_JUMPING = 3;
     private final int LAST_FRAME_STOPPED = 4;
     private final int LAST_FRAME_ROLLING = 4;
     private final int LAST_FRAME_WALKING = 8;
     private final int MAX_LIVES = 3;
+    private final int MAX_LEAF = 3;
     private final int MAX_JUMPS = 2;
 
     public Player(PonkanRun game) {
@@ -65,6 +67,7 @@ public class Player extends Object2D {
     protected void beforeCreateObject() {
         setFrameBase(10);
         setCurrentTotalLives(MAX_LIVES);
+        setCurrentTotalLeaf(MAX_LEAF);
     }
 
     @Override
@@ -78,6 +81,7 @@ public class Player extends Object2D {
         setFrameBase(10);
         setVelocity(0);
         setCurrentTotalLives(MAX_LIVES);
+        setCurrentTotalLeaf(MAX_LEAF);
     }
 
     public void jump() {
@@ -172,6 +176,14 @@ public class Player extends Object2D {
 
     public int getCurrentTotalLives() {
         return currentTotalLives;
+    }
+
+    private void setCurrentTotalLeaf(int currentTotalLeaf) {
+        this.currentTotalLeaf = currentTotalLeaf;
+    }
+
+    public int getCurrentTotalLeaf() {
+        return currentTotalLeaf;
     }
 
     private void setRemainingJumps(int remainingJumps) {

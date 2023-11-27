@@ -135,6 +135,7 @@ public class Stage implements Animation {
             default -> {
                 getListInformation().add(new InformationLives(getGame()));
                 getListInformation().add(new InformationScore(getGame()));
+                getListInformation().add(new InformationLeaf(getGame()));
             }
         }
     }
