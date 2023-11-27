@@ -342,7 +342,7 @@ public class Stage implements Animation {
         return active;
     }
 
-    private void setActive (boolean active) {
+    public void setActive (boolean active) {
         this.active = active;
     }
 }

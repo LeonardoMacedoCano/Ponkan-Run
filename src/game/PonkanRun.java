@@ -18,7 +18,6 @@ public class PonkanRun extends JFrame implements Animation {
     private CustomTimer customTimer;
     private Stage currentStage;
     private Player player;
-    private boolean active;
     private int screenWidth;
     private int screenHeight;
     private Insets screenEdge;
@@ -49,16 +48,13 @@ public class PonkanRun extends JFrame implements Animation {
         setCurrentStage(new Stage(this));
         setPlayer(new Player(this));
         setCustomTimer(new CustomTimer(this, 15));
-        setActive(true);
     }
 
     public static void main(String[] args) {
         PonkanRun ponkanRun = new PonkanRun();
 
-        while (ponkanRun.getActive()) {
-            ponkanRun.startGame();
-            ponkanRun.loop();
-        }
+        ponkanRun.startGame();
+        ponkanRun.loop();
     }
 
     @Override
@@ -86,11 +82,17 @@ public class PonkanRun extends JFrame implements Animation {
         System.gc();
         addKeyboardHandler();
         getCurrentStage().start();
+        resetTime();
+    }
+
+    public void endGame() {
+        getCurrentStage().setActive(false);
+        removeKeyListener(getKeyboardAdapter());
+        dispose();
+        System.exit(0);
     }
 
     private void loop() {
-        resetTime();
-
         while (getCurrentStage().getActive()) {
             update();
             render();
@@ -98,8 +100,6 @@ public class PonkanRun extends JFrame implements Animation {
             getCustomTimer().skipFrames();
             getCustomTimer().generateStatistics();
         }
-
-        removeKeyListener(getKeyboardAdapter());
     }
 
     private void render() {
@@ -175,14 +175,6 @@ public class PonkanRun extends JFrame implements Animation {
 
     public Player getPlayer() {
         return player;
-    }
-
-    private void setActive (boolean active) {
-        this.active = active;
-    }
-
-    private boolean getActive() {
-        return active;
     }
 
     public int getScreenWidth() {
