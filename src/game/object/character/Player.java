@@ -164,7 +164,7 @@ public class Player extends Object2D {
     }
 
     private void updateYCoordinate() {
-        if (isJumping()) {
+        if (isJumping() || LibraryUtils.StageType.LOST.equals(getGame().getCurrentStage().getCurrentStageType())) {
             setY(getY() + getVelocity());
         } else {
             setPlayerOnTheFloor();
