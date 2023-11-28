@@ -2,8 +2,12 @@ package game.utils;
 
 import game.object.Object2D;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class LibraryUtils {
     private static final String PATH_IMG = "src/game/image/";
@@ -20,6 +24,8 @@ public class LibraryUtils {
     public static final String PATH_IMG_PLAYER_ROLLING = String.format("%s/player-rolling/", PATH_IMG_PLAYER);
     public static final String PATH_IMG_OBSTACLE = String.format("%s/obstacle/", PATH_IMG);
     public static final String PATH_IMG_ITEM_LEAF = String.format("%s/leaf/", PATH_IMG_ITEM);
+
+    private static final String PROPERTIES_FILE = "record.properties";
 
     public enum StageType {
         PLAY,
@@ -67,5 +73,25 @@ public class LibraryUtils {
             }
         }
         return false;
+    }
+
+    public static int loadRecord() {
+        Properties properties = new Properties();
+        try (FileInputStream input = new FileInputStream(PROPERTIES_FILE)) {
+            properties.load(input);
+        } catch (IOException e) {
+            System.out.println("Error loading the record.");
+        }
+        return Integer.parseInt(properties.getProperty("record", "0"));
+    }
+
+    public static void saveRecord(int record) {
+        Properties properties = new Properties();
+        properties.setProperty("record", String.valueOf(record));
+        try (FileOutputStream output = new FileOutputStream(PROPERTIES_FILE)) {
+            properties.store(output, "Game Record");
+        } catch (IOException e) {
+            System.out.println("Error saving the record.");
+        }
     }
 }

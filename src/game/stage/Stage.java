@@ -24,6 +24,7 @@ public class Stage implements Animation {
     private LibraryUtils.StageType currentStageType;
     private int currentScore;
     private int currentVelocity;
+    private int currentRecord;
     private int millisUntilNextObstacle;
     private int minDistBetweenObstacles;
     private boolean active;
@@ -116,6 +117,7 @@ public class Stage implements Animation {
         setCurrentVelocity(0);
         setMillisUntilNextObstacle(0);
         setMinDistBetweenObstacles(0);
+        setCurrentRecord(0);
         getGame().getPlayer().prepareStagePlay();
         getListObstacle().clear();
     }
@@ -124,6 +126,7 @@ public class Stage implements Animation {
         setCurrentStageType(LibraryUtils.StageType.PLAYING);
         setCurrentVelocity(INITIAL_VELOCITY);
         setMinDistBetweenObstacles(INITIAL_MIN_DIST_OBSTACLES);
+        setCurrentRecord(LibraryUtils.loadRecord());
     }
 
     private void prepareStageLost() {
@@ -214,6 +217,9 @@ public class Stage implements Animation {
                 getGame().getPlayer().loseLife();
 
                 if (getGame().getPlayer().getCurrentTotalLives() <= 0) {
+                    if (getCurrentScore() > getCurrentRecord()) {
+                        LibraryUtils.saveRecord(getCurrentScore());
+                    }
                     prepareStageLost();
                 }
             }
@@ -320,6 +326,14 @@ public class Stage implements Animation {
 
     public int getCurrentVelocity() {
         return currentVelocity;
+    }
+
+    private void setCurrentRecord(int currentRecord) {
+        this.currentRecord = currentRecord;
+    }
+
+    public int getCurrentRecord() {
+        return currentRecord;
     }
 
     private void setMillisUntilNextObstacle(int millisUntilNextObstacle) {

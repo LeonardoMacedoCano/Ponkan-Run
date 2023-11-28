@@ -23,8 +23,20 @@ public class InformationLost extends DefaultInformation {
         AttributedString text;
         Font font;
 
-        font = new Font("TimesRoman", Font.PLAIN, 45);
-        text = new AttributedString(String.format("Score: %03d", getGame().getCurrentStage().getCurrentScore()));
+        font = new Font("TimesRoman", Font.PLAIN, 30);
+
+        int currentScore = getGame().getCurrentStage().getCurrentScore();
+        int currentRecord = getGame().getCurrentStage().getCurrentRecord();
+
+        String formattedText;
+
+        if (currentScore > currentRecord) {
+            formattedText = String.format("New Record: %03d", currentScore);
+        } else {
+            formattedText = String.format("Score: %03d / Record: %03d", currentScore, currentRecord);
+        }
+
+        text = new AttributedString(formattedText);
 
         text.addAttribute(TextAttribute.FONT, font);
         text.addAttribute(TextAttribute.FOREGROUND, Color.white);
@@ -38,7 +50,7 @@ public class InformationLost extends DefaultInformation {
         setTextBoxHeight((int) textLayout.getBounds().getHeight());
         setTextBoxWidth((int) textLayout.getBounds().getWidth());
         setXText((getGame().getScreenWidth() - getTextBoxWidth()) / 2);
-        setYText((getGame().getScreenHeight() + getTextBoxHeight()) / 2);
+        setYText((getGame().getScreenHeight() / 2) + getTextBoxHeight());
     }
 
     @Override
