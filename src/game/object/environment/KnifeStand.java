@@ -27,7 +27,7 @@ public class KnifeStand extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_ENVIRONMENT_KNIFE_STAND, getFrame());
+        return String.format("%s%d.png", LibraryUtils.PATH_IMG_ENVIRONMENT_KNIFE_STAND, getFrame());
     }
 
     @Override

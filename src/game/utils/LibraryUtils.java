@@ -10,20 +10,20 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class LibraryUtils {
-    private static final String PATH_IMG = "src/game/image/";
-    private static final String PATH_IMG_ENVIRONMENT = String.format("%s/environment/", PATH_IMG);
-    private static final String PATH_IMG_ITEM = String.format("%s/item/", PATH_IMG);
-    public static final String PATH_IMG_ENVIRONMENT_BG = String.format("%s/environment-bg/", PATH_IMG_ENVIRONMENT);
-    public static final String PATH_IMG_ENVIRONMENT_FLOOR = String.format("%s/environment-floor/", PATH_IMG_ENVIRONMENT);
-    public static final String PATH_IMG_ENVIRONMENT_KNIFE_STAND = String.format("%s/knife-stand/", PATH_IMG_ENVIRONMENT);
-    public static final String PATH_IMG_INFORMATION = String.format("%s/information", PATH_IMG);
-    public static final String PATH_IMG_PLAYER = String.format("%s/player/", PATH_IMG);
-    public static final String PATH_IMG_PLAYER_STOPPED = String.format("%s/player-stopped/", PATH_IMG_PLAYER);
-    public static final String PATH_IMG_PLAYER_WALKING = String.format("%s/player-walking/", PATH_IMG_PLAYER);
-    public static final String PATH_IMG_PLAYER_JUMPING = String.format("%s/player-jumping/", PATH_IMG_PLAYER);
-    public static final String PATH_IMG_PLAYER_ROLLING = String.format("%s/player-rolling/", PATH_IMG_PLAYER);
-    public static final String PATH_IMG_OBSTACLE = String.format("%s/obstacle/", PATH_IMG);
-    public static final String PATH_IMG_ITEM_LEAF = String.format("%s/leaf/", PATH_IMG_ITEM);
+    private static final String PATH_IMG = "/game/image/";
+    private static final String PATH_IMG_ENVIRONMENT = String.format("%senvironment/", PATH_IMG);
+    private static final String PATH_IMG_ITEM = String.format("%sitem/", PATH_IMG);
+    public static final String PATH_IMG_ENVIRONMENT_BG = String.format("%senvironment-bg/", PATH_IMG_ENVIRONMENT);
+    public static final String PATH_IMG_ENVIRONMENT_FLOOR = String.format("%senvironment-floor/", PATH_IMG_ENVIRONMENT);
+    public static final String PATH_IMG_ENVIRONMENT_KNIFE_STAND = String.format("%sknife-stand/", PATH_IMG_ENVIRONMENT);
+    public static final String PATH_IMG_INFORMATION = String.format("%sinformation/", PATH_IMG);
+    public static final String PATH_IMG_PLAYER = String.format("%splayer/", PATH_IMG);
+    public static final String PATH_IMG_PLAYER_STOPPED = String.format("%splayer-stopped/", PATH_IMG_PLAYER);
+    public static final String PATH_IMG_PLAYER_WALKING = String.format("%splayer-walking/", PATH_IMG_PLAYER);
+    public static final String PATH_IMG_PLAYER_JUMPING = String.format("%splayer-jumping/", PATH_IMG_PLAYER);
+    public static final String PATH_IMG_PLAYER_ROLLING = String.format("%splayer-rolling/", PATH_IMG_PLAYER);
+    public static final String PATH_IMG_OBSTACLE = String.format("%sobstacle/", PATH_IMG);
+    public static final String PATH_IMG_ITEM_LEAF = String.format("%sleaf/", PATH_IMG_ITEM);
 
     private static final String PROPERTIES_FILE = "record.properties";
 

@@ -13,7 +13,7 @@ public class InformationPlay extends DefaultInformation {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/panelPlay.png", LibraryUtils.PATH_IMG_INFORMATION);
+        return String.format("%spanelPlay.png", LibraryUtils.PATH_IMG_INFORMATION);
     }
 
     @Override

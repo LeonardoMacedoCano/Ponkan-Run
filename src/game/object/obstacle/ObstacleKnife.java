@@ -26,7 +26,7 @@ public class ObstacleKnife extends DefaultObstacle {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/knife.png", LibraryUtils.PATH_IMG_OBSTACLE);
+        return String.format("%sknife.png", LibraryUtils.PATH_IMG_OBSTACLE);
     }
 
     @Override

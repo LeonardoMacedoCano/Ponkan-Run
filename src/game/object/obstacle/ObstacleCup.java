@@ -26,7 +26,7 @@ public class ObstacleCup extends DefaultObstacle {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/cup.png", LibraryUtils.PATH_IMG_OBSTACLE);
+        return String.format("%scup.png", LibraryUtils.PATH_IMG_OBSTACLE);
     }
 
     @Override

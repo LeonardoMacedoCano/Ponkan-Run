@@ -38,7 +38,7 @@ public class Leaf extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_ITEM_LEAF, getFrame());
+        return String.format("%s%d.png", LibraryUtils.PATH_IMG_ITEM_LEAF, getFrame());
     }
 
     @Override

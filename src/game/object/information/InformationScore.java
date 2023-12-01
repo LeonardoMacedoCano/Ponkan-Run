@@ -20,7 +20,7 @@ public class InformationScore extends DefaultInformation {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/panelScore.png", LibraryUtils.PATH_IMG_INFORMATION);
+        return String.format("%spanelScore.png", LibraryUtils.PATH_IMG_INFORMATION);
     }
 
     @Override

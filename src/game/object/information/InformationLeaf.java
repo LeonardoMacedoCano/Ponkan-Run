@@ -34,7 +34,7 @@ public class InformationLeaf extends DefaultInformation {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/panelLeaf%d.png", LibraryUtils.PATH_IMG_INFORMATION, getGame().getPlayer().getCurrentTotalLeaf());
+        return String.format("%spanelLeaf%d.png", LibraryUtils.PATH_IMG_INFORMATION, getGame().getPlayer().getCurrentTotalLeaf());
     }
 
     @Override

@@ -71,7 +71,7 @@ public class InformationLost extends DefaultInformation {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/panelLost.png", LibraryUtils.PATH_IMG_INFORMATION);
+        return String.format("%spanelLost.png", LibraryUtils.PATH_IMG_INFORMATION);
     }
 
     @Override

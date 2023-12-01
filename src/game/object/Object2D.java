@@ -3,9 +3,9 @@ package game.object;
 import game.PonkanRun;
 import game.utils.Animation;
 
-import javax.swing.ImageIcon;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
 
 public abstract class Object2D implements Animation {
     private int x;
@@ -78,8 +78,15 @@ public abstract class Object2D implements Animation {
     }
 
     protected void setImage() {
-        ImageIcon image = new ImageIcon(getImageFrame());
-        this.image = image.getImage();
+        String imagePath = getImageFrame();
+        URL imageUrl = getClass().getResource(imagePath);
+
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+            this.image = icon.getImage();
+        } else {
+            System.out.println("Image not found: " + imagePath);
+        }
     }
 
     public Image getImage() {

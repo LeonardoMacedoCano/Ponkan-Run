@@ -24,8 +24,8 @@ public class PonkanRun extends JFrame implements Animation {
 
     public PonkanRun() {
         String TITLE = "Ponkan Run";
-        String IMAGE_ICON = String.format("%s/icon.png", LibraryUtils.PATH_IMG_PLAYER);
-        ImageIcon icon = new ImageIcon(IMAGE_ICON);
+        String IMAGE_ICON = String.format("%sicon.png", LibraryUtils.PATH_IMG_PLAYER);
+        ImageIcon icon = new ImageIcon(getClass().getResource(IMAGE_ICON));
         int DEFAULT_HEIGHT = 728;
         int DEFAULT_WIDTH = 1024;
 

@@ -27,7 +27,7 @@ public class EnvironmentFloor extends Object2D {
 
     @Override
     protected String getImageFrame() {
-        return String.format("%s/%d.png", LibraryUtils.PATH_IMG_ENVIRONMENT_FLOOR, getFrame());
+        return String.format("%s%d.png", LibraryUtils.PATH_IMG_ENVIRONMENT_FLOOR, getFrame());
     }
 
     @Override
